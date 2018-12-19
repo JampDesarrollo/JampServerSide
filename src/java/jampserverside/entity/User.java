@@ -6,8 +6,10 @@
 package jampserverside.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -103,11 +105,11 @@ public class User implements Serializable {
     /**
      * 
      */
-    private Date lastAccess;
+    private Timestamp lastAccess;
     /**
      * 
      */
-    private Date lastPasswordChange;
+    private Timestamp lastPasswordChange;
 
     /**
      * @return the idUser
@@ -224,29 +226,62 @@ public class User implements Serializable {
     /**
      * @return the lastAccess
      */
-    public Date getLastAccess() {
+    public Timestamp getLastAccess() {
         return lastAccess;
     }
 
     /**
      * @param lastAccess the lastAccess to set
      */
-    public void setLastAccess(Date lastAccess) {
+    public void setLastAccess(Timestamp lastAccess) {
         this.lastAccess = lastAccess;
     }
 
     /**
      * @return the lastPasswordChange
      */
-    public Date getLastPasswordChange() {
+    public Timestamp getLastPasswordChange() {
         return lastPasswordChange;
     }
 
     /**
      * @param lastPasswordChange the lastPasswordChange to set
      */
-    public void setLastPasswordChange(Date lastPasswordChange) {
+    public void setLastPasswordChange(Timestamp lastPasswordChange) {
         this.lastPasswordChange = lastPasswordChange;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.idUser);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (!Objects.equals(this.idUser, other.idUser)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "idUser=" + idUser + '}';
+    }
+
+    
+    
 
 }
