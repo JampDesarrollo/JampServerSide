@@ -7,6 +7,7 @@ package jampserverside.entity;
 
 import jampserverside.entity.Txoko;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -61,7 +62,7 @@ public class Event implements Serializable {
     /**
      * The date of the event
      */
-    private Date date;
+    private Timestamp date;
 
     /**
      * The price of the event
@@ -135,14 +136,14 @@ public class Event implements Serializable {
     /**
      * @return the date
      */
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

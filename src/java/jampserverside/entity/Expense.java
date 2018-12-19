@@ -6,6 +6,7 @@
 package jampserverside.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -52,7 +53,7 @@ public class Expense implements Serializable {
     /**
      * Date of the expense.
      */
-    private Date dateExpense;
+    private Timestamp dateExpense;
     /**
      * Type of expense.
      */
@@ -97,14 +98,14 @@ public class Expense implements Serializable {
     /**
      * @return the dateExpense
      */
-    public Date getDateExpense() {
+    public Timestamp getDateExpense() {
         return dateExpense;
     }
 
     /**
      * @param dateExpense the dateExpense to set
      */
-    public void setDateExpense(Date dateExpense) {
+    public void setDateExpense(Timestamp dateExpense) {
         this.dateExpense = dateExpense;
     }
 
