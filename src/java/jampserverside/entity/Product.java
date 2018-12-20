@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -6,7 +6,7 @@
 package jampserverside.entity;
 
 import java.io.Serializable;
-import java.util.Objects;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,15 +15,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author Julen
  */
-
 @Entity
-@Table(name="product",schema="dindb")
+@Table(name="product",schema="jampdb")
 @NamedQueries({
     @NamedQuery(name="findProductById",
             query="SELECT p FROM Product p JOIN Txoko t WHERE p.id = :id AND t.id = :txokoId ORDER BY u.id DESC"
@@ -36,15 +34,17 @@ import javax.xml.bind.annotation.XmlRootElement;
     )
 })
 
-@XmlRootElement
-public class Product implements Serializable{
 
+public class Product implements Serializable {
+
+    private static long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+  
     /**
      * 
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer idProduct;
     /**
      * 
      */
@@ -61,24 +61,32 @@ public class Product implements Serializable{
      * 
      */
     private String description;
+
+    @ManyToMany(mappedBy="products")
+    private List<Txoko>txokos;
     
-    
-    /**
-     * @return the id
-     */
     public Integer getId() {
-        return id;
+        return idProduct;
+    }
+
+    public void setId(Integer id) {
+        this.idProduct = idProduct;
     }
 
     /**
-     * @param id the id to set
+     * @return the serialVersionUID
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
-    @ManyToMany (mappedBy="idProduct")
-    private List<Txoko>();
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
+
     /**
      * @return the stock
      */
@@ -134,27 +142,35 @@ public class Product implements Serializable{
     public void setDescription(String description) {
         this.description = description;
     }
+    /**
+     * @return the txokos
+     */
+    public List<Txoko> getTxokos() {
+        return txokos;
+    }
 
+    /**
+     * @param txokos the txokos to set
+     */
+    public void setTxokos(List<Txoko> txokos) {
+        this.txokos = txokos;
+    }
+    
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 61 * hash + Objects.hashCode(this.id);
+        int hash = 0;
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Product)) {
             return false;
         }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Product other = (Product) obj;
-        if (!Objects.equals(this.id, other.id)) {
+        Product other = (Product) object;
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.idProduct.equals(other.idProduct))) {
             return false;
         }
         return true;
@@ -162,7 +178,7 @@ public class Product implements Serializable{
 
     @Override
     public String toString() {
-        return "products{id=" + id + " ]";
+        return "jampserverside.entity.Product[ id=" + getId() + " ]";
     }
 
     
