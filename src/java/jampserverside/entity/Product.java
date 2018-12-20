@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,7 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="product",schema="jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="findProductById",
             query="SELECT p FROM Product p JOIN Txoko t WHERE p.id = :id AND t.id = :txokoId ORDER BY u.id DESC"
     ),
@@ -32,9 +34,10 @@ import javax.persistence.Table;
     @NamedQuery(name="findAllProduct",
             query="SELECT u FROM User u WHERE u.profile = :profile"
     )
-})
+})*/
 
 
+@XmlRootElement
 public class Product implements Serializable {
 
     private static long serialVersionUID = 1L;
@@ -145,6 +148,7 @@ public class Product implements Serializable {
     /**
      * @return the txokos
      */
+    @XmlTransient
     public List<Txoko> getTxokos() {
         return txokos;
     }

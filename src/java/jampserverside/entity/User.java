@@ -29,7 +29,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user", schema = "jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "findUserByLogin",
             query = "SELECT * FROM users WHERE users.login= :user.getLogin()"
     )
@@ -54,7 +54,7 @@ import javax.persistence.Table;
             query = "INSERT INTO users ('login','email','fullname','status','privileges','password')"
             + "values(':user.getLogin()',':user.getEmail()',':user.Fullname()',':user.getStatus()',':user.getPrivileges()',':user.getPassword()')"
     )
-})
+})*/
 public class User implements Serializable {
 
     /**
