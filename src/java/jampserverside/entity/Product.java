@@ -62,7 +62,7 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(mappedBy="idProduct")
+    @ManyToMany(mappedBy="products")
     private List<Txoko>txokos;
     
     public Integer getId() {

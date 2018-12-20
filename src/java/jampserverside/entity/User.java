@@ -66,7 +66,7 @@ public class User implements Serializable {
     /**
      *
      */
-    @OneToMany(mappedBy = "idUser")
+    @OneToMany(mappedBy = "user")
     private List<Expense> expenses;
     /**
      *

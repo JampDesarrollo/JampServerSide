@@ -28,7 +28,7 @@ public class Txoko implements Serializable {
     /**
      * List of {@link User} belonging to the txoko.
      */
-    @OneToMany(mappedBy = "idTxoko")
+    @OneToMany(mappedBy = "txoko")
     private List<User> users;
     private static long serialVersionUID = 1L;
 
@@ -63,7 +63,7 @@ public class Txoko implements Serializable {
      */
     @ManyToMany
     @JoinTable(name = "TxokoProduct")
-    private List<Product> product;
+    private List<Product> products;
 
     /**
      * Many to many relation with event. Creates TxokoEvent
@@ -174,14 +174,14 @@ public class Txoko implements Serializable {
      * @return the product
      */
     public List<Product> getProduct() {
-        return product;
+        return products;
     }
 
     /**
-     * @param product the product to set
+     * @param products the product to set
      */
-    public void setProduct(List<Product> product) {
-        this.product = product;
+    public void setProduct(List<Product> products) {
+        this.products = products;
     }
 
     /**

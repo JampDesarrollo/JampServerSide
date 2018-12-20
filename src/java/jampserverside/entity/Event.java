@@ -82,13 +82,13 @@ public class Event implements Serializable {
     /**
      *
      */
-    @ManyToMany(mappedBy = "idEvent")
+    @ManyToMany(mappedBy = "events")
     private List<Txoko> txokos;
 
     /**
      *
      */
-    @ManyToMany(mappedBy = "idEvent")
+    @ManyToMany(mappedBy = "events")
     private List<User> users;
 
     /**
