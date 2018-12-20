@@ -13,9 +13,12 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity JPA class for Expenses. The properties of this class are idUser ,
@@ -25,7 +28,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Table(name = "expense", schema = "jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "findAllExpensesUsers",
             query = "SELECT u FROM Expense u WHERE u.idUser=("
             + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
@@ -35,7 +38,8 @@ import javax.persistence.ManyToOne;
             query = "SELECT u FROM Expense u WHERE u.date=sysdatetime() AND u.idUser=("
             + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
     )
-})
+})*/
+@XmlRootElement
 public class Expense implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,6 +47,7 @@ public class Expense implements Serializable {
      *
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idExpense;
     /**
      * Id of the user.

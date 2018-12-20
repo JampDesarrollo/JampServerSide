@@ -28,7 +28,7 @@ import javax.persistence.Table;
 @Entity
 //LAS SELECTS
 @Table(name = "Event", schema = "jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "findAllEvents",
             query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE t.idTxoko = :idTxoko ORDER BY u.name DESC"
     )
@@ -40,7 +40,7 @@ import javax.persistence.Table;
     @NamedQuery(name = "findEventByName",
             query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE e.name = :name AND t.idTxoko=:idTxoko ORDER BY u.name DESC"
     )
-})
+})*/
 public class Event implements Serializable {
 
     private static long serialVersionUID = 1L;

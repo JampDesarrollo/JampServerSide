@@ -26,7 +26,7 @@ public interface ExpenseManagerEJBLocal {
      * @return A List of Expense objects.
      * @throws ReadException If there is any Exception during processing.
      */
-    public List<Expense> findAllExpensesUsers(int idTxoko) throws ReadException;
+    public List<Expense> findAllExpensesUsers(Integer idTxoko) throws ReadException;
 
     /**
      * Finds expenses of the current month for the users of a txoko.
@@ -35,7 +35,7 @@ public interface ExpenseManagerEJBLocal {
      * @return A List of Expense objects.
      * @throws ReadException If there is any Exception during processing.
      */
-    public List<Expense> findMonthExpensesUsers(int idTxoko) throws ReadException;
+    public List<Expense> findMonthExpensesUsers(Integer idTxoko) throws ReadException;
 
     /**
      * Creates an Expense and stores it in the underlying application storage.

@@ -13,6 +13,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -22,6 +24,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,7 +33,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "user", schema = "jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "findUserByLogin",
             query = "SELECT * FROM users WHERE users.login= :user.getLogin()"
     )
@@ -54,7 +58,8 @@ import javax.persistence.Table;
             query = "INSERT INTO users ('login','email','fullname','status','privileges','password')"
             + "values(':user.getLogin()',':user.getEmail()',':user.Fullname()',':user.getStatus()',':user.getPrivileges()',':user.getPassword()')"
     )
-})
+})*/
+@XmlRootElement
 public class User implements Serializable {
 
     /**
@@ -72,6 +77,7 @@ public class User implements Serializable {
      *
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idUser;
     /**
      *
@@ -118,6 +124,7 @@ public class User implements Serializable {
     /**
      * @return the events
      */
+    @XmlTransient
     public List<Event> getEvents() {
         return events;
     }
@@ -132,6 +139,7 @@ public class User implements Serializable {
     /**
      * @return the expenses
      */
+    @XmlTransient
     public List<Expense> getExpenses() {
         return expenses;
     }

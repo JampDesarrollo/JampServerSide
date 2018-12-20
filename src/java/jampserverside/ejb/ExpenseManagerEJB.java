@@ -42,11 +42,12 @@ public class ExpenseManagerEJB implements ExpenseManagerEJBLocal {
      * @throws ReadException If there is any Exception during processing.
      */
     @Override
-    public List<Expense> findAllExpensesUsers(int idTxoko) throws ReadException {
+    public List<Expense> findAllExpensesUsers(Integer idTxoko) throws ReadException {
         List<Expense> expenses = null;
         try {
             LOGGER.info("ExpenseManager: Reading all expenses in this txoko.");
-            expenses = em.createNamedQuery("findAllExpensesUsers").getResultList();
+            expenses = em.createNamedQuery("findAllExpensesUsers").
+                    setParameter("idTxoko", idTxoko).getResultList();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "ExpenseManager: Exception reading all "
                     + "expenses users: ", e.getMessage());
@@ -63,12 +64,13 @@ public class ExpenseManagerEJB implements ExpenseManagerEJBLocal {
      * @throws ReadException If there is any Exception during processing.
      */
     @Override
-    public List<Expense> findMonthExpensesUsers(int idTxoko) throws ReadException {
+    public List<Expense> findMonthExpensesUsers(Integer idTxoko) throws ReadException {
         List<Expense> expenses = null;
         try {
             LOGGER.info("ExpenseManager: Reading all expenses "
                     + "this month in this txoko.");
-            expenses = em.createNamedQuery("findMonthExpensesUsers").getResultList();
+            expenses = em.createNamedQuery("findMonthExpensesUsers").
+                    setParameter("idTxoko", idTxoko).getResultList();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "ExpenseManager: Exception reading all "
                     + "expenses users month: ", e.getMessage());
