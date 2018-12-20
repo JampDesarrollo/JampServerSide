@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="product",schema="jampdb")
-/*@NamedQueries({
+@NamedQueries({
     @NamedQuery(name="findProductById",
             query="SELECT p FROM Product p JOIN Txoko t WHERE p.id = :id AND t.id = :txokoId ORDER BY u.id DESC"
     ),
@@ -32,7 +32,7 @@ import javax.persistence.Table;
     @NamedQuery(name="findAllProduct",
             query="SELECT u FROM User u WHERE u.profile = :profile"
     )
-})*/
+})
 
 
 public class Product implements Serializable {
@@ -62,7 +62,7 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(mappedBy="idProduct")
+    @ManyToMany(mappedBy="products")
     private List<Txoko>txokos;
     
     public Integer getId() {
@@ -142,6 +142,19 @@ public class Product implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    /**
+     * @return the txokos
+     */
+    public List<Txoko> getTxokos() {
+        return txokos;
+    }
+
+    /**
+     * @param txokos the txokos to set
+     */
+    public void setTxokos(List<Txoko> txokos) {
+        this.txokos = txokos;
+    }
     
     @Override
     public int hashCode() {
@@ -167,4 +180,6 @@ public class Product implements Serializable {
     public String toString() {
         return "jampserverside.entity.Product[ id=" + getId() + " ]";
     }
+
+    
 }
