@@ -142,6 +142,19 @@ public class Product implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+    /**
+     * @return the txokos
+     */
+    public List<Txoko> getTxokos() {
+        return txokos;
+    }
+
+    /**
+     * @param txokos the txokos to set
+     */
+    public void setTxokos(List<Txoko> txokos) {
+        this.txokos = txokos;
+    }
     
     @Override
     public int hashCode() {
@@ -167,4 +180,6 @@ public class Product implements Serializable {
     public String toString() {
         return "jampserverside.entity.Product[ id=" + getId() + " ]";
     }
+
+    
 }

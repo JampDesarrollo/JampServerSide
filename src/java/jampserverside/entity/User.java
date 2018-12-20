@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -54,61 +56,92 @@ import javax.persistence.Table;
     )
 })
 public class User implements Serializable {
+
     /**
-     * 
+     *
      */
     @ManyToMany
-    @JoinTable(name="UserEvent")
+    @JoinTable(name = "UserEvent")
     private List<Event> events;
     /**
-     * 
+     *
      */
     @OneToMany(mappedBy = "idUser")
     private List<Expense> expenses;
     /**
-     * 
+     *
      */
     @Id
     private Integer idUser;
     /**
-     * 
+     *
      */
     @ManyToOne
     @JoinColumn(name = "idTxoko")
     private Txoko txoko;
     /**
-     * 
+     *
      */
-    @Column(unique=true)
+    @Column(unique = true)
     private String login;
     /**
-     * 
+     *
      */
     private String email;
     /**
-     * 
+     *
      */
     private String fullname;
     /**
-     * 
+     *
      */
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
     /**
-     * 
+     *
      */
-    private String privilege;
+    @Enumerated(EnumType.STRING)
+    private UserPrivilege privilege;
     /**
-     * 
+     *
      */
     private String password;
     /**
-     * 
+     *
      */
     private Timestamp lastAccess;
     /**
-     * 
+     *
      */
     private Timestamp lastPasswordChange;
+
+    /**
+     * @return the events
+     */
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    /**
+     * @param events the events to set
+     */
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    /**
+     * @return the expenses
+     */
+    public List<Expense> getExpenses() {
+        return expenses;
+    }
+
+    /**
+     * @param expenses the expenses to set
+     */
+    public void setExpenses(List<Expense> expenses) {
+        this.expenses = expenses;
+    }
 
     /**
      * @return the idUser
@@ -183,28 +216,28 @@ public class User implements Serializable {
     /**
      * @return the status
      */
-    public String getStatus() {
+    public UserStatus getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(String status) {
+    public void setStatus(UserStatus status) {
         this.status = status;
     }
 
     /**
      * @return the privilege
      */
-    public String getPrivilege() {
+    public UserPrivilege getPrivilege() {
         return privilege;
     }
 
     /**
      * @param privilege the privilege to set
      */
-    public void setPrivilege(String privilege) {
+    public void setPrivilege(UserPrivilege privilege) {
         this.privilege = privilege;
     }
 
