@@ -21,7 +21,7 @@ import javax.persistence.Table;
  * @author Julen
  */
 @Entity
-@Table(name="product",schema="jampdb")
+@Table(name="product",schema="jampdb")/*
 @NamedQueries({
     @NamedQuery(name="findProductById",
             query="SELECT p FROM Product p JOIN Txoko t WHERE p.id = :id AND t.id = :txokoId ORDER BY u.id DESC"
@@ -32,7 +32,7 @@ import javax.persistence.Table;
     @NamedQuery(name="findAllProduct",
             query="SELECT u FROM User u WHERE u.profile = :profile"
     )
-})
+})*/
 
 
 public class Product implements Serializable {

@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
  * @author ander
  */
 @Entity
-@Table(name = "expense", schema = "jampdb")
+@Table(name = "expense", schema = "jampdb")/*
 @NamedQueries({
     @NamedQuery(name = "findAllExpensesUsers",
             query = "SELECT u FROM Expense u WHERE u.idUser=("
@@ -35,7 +35,7 @@ import javax.persistence.ManyToOne;
             query = "SELECT u FROM Expense u WHERE u.date=sysdatetime() AND u.idUser=("
             + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
     )
-})
+})*/
 public class Expense implements Serializable {
 
     private static final long serialVersionUID = 1L;

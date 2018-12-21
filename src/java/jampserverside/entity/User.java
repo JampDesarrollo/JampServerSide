@@ -22,13 +22,15 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author 2dam
  */
 @Entity
-@Table(name = "user", schema = "jampdb")
+@Table(name = "user", schema = "jampdb")/*
 @NamedQueries({
     @NamedQuery(name = "findUserByLogin",
             query = "SELECT * FROM users WHERE users.login= :user.getLogin()"
@@ -54,7 +56,8 @@ import javax.persistence.Table;
             query = "INSERT INTO users ('login','email','fullname','status','privileges','password')"
             + "values(':user.getLogin()',':user.getEmail()',':user.Fullname()',':user.getStatus()',':user.getPrivileges()',':user.getPassword()')"
     )
-})
+})*/
+@XmlRootElement
 public class User implements Serializable {
 
     /**
@@ -118,6 +121,7 @@ public class User implements Serializable {
     /**
      * @return the events
      */
+    @XmlTransient
     public List<Event> getEvents() {
         return events;
     }
@@ -132,6 +136,7 @@ public class User implements Serializable {
     /**
      * @return the expenses
      */
+    @XmlTransient
     public List<Expense> getExpenses() {
         return expenses;
     }
