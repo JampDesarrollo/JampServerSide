@@ -35,7 +35,8 @@ import javax.xml.bind.annotation.XmlTransient;
             query="SELECT u FROM User u WHERE u.profile = :profile"
     )
 })*/
-
+  @NamedQuery(name="findAllProducts",
+            query="SELECT p FROM Product p")
 
 @XmlRootElement
 public class Product implements Serializable {

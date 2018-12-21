@@ -62,14 +62,14 @@ public class Txoko implements Serializable {
      * Many to many relation with Product. Creates TxokoProduct
      */
     @ManyToMany
-    @JoinTable(name = "TxokoProduct")
+    @JoinTable(name = "TxokoProduct", schema="jampdb")
     private List<Product> products;
 
     /**
      * Many to many relation with event. Creates TxokoEvent
      */
     @ManyToMany
-    @JoinTable(name = "TxokoEvent")
+    @JoinTable(name = "TxokoEvent", schema="jampdb")
     private List<Event> events;
 
     /**

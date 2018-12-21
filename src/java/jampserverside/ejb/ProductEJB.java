@@ -93,13 +93,27 @@ public class ProductEJB implements ProductEJBLocal{
      * @throws ReadException 
      */
     @Override
-    public List<Product> findAllProducts(int idTxoko) throws ReadException {
+    public List<Product> findAllProductsByTxoko(int idTxoko) throws ReadException {
         List<Product> product=null;
         try{
             LOGGER.info("Product: Finding all products.");
-            product=(List<Product>)em.createNamedQuery("findProductByName")
+            product=(List<Product>)em.createNamedQuery("findProductByTxoko")
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
+           // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "UserManager: Exception Finding user by login:",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return product;    }
+    
+        @Override
+        public List<Product> findAllProducts() throws ReadException {
+        List<Product> product=null;
+        try{
+            LOGGER.info("Product: Finding all products.");
+            product=(List<Product>)em.createNamedQuery("findAllProducts").getResultList();
            // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "UserManager: Exception Finding user by login:",
@@ -136,7 +150,6 @@ public class ProductEJB implements ProductEJBLocal{
         LOGGER.info("ProductManager: Updating product.");
         try{
             em.merge(product);
-            em.flush();
             LOGGER.info("ProductManager: Product updated.");
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductManager: Exception updating product.{0}",

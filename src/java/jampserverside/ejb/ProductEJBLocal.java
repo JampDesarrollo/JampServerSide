@@ -16,6 +16,7 @@ import java.util.List;
  *
  * @author Julen
  */
+
 public interface ProductEJBLocal {
     /**
      * 
@@ -41,7 +42,15 @@ public interface ProductEJBLocal {
      * @return
      * @throws ReadException 
      */
-    public List<Product> findAllProducts(int idTxoko) throws ReadException;
+    public List<Product> findAllProductsByTxoko(int idTxoko) throws ReadException;
+    
+    /**
+     * 
+     * @param idTxoko
+     * @return
+     * @throws ReadException 
+     */
+    public List<Product> findAllProducts() throws ReadException;
     
     /**
      * 
