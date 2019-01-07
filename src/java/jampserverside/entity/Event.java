@@ -5,10 +5,8 @@
  */
 package jampserverside.entity;
 
-import jampserverside.entity.Txoko;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
@@ -16,21 +14,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
- * Class for the events data
+ * Class for the events data.
  *
  * @author paula
  */
 @Entity
 //LAS SELECTS
-@Table(name = "Event", schema = "jampdb")
+@Table(name = "event", schema = "jampdb")
 /*@NamedQueries({
     @NamedQuery(name = "findAllEvents",
-            query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE t.idTxoko = :idTxoko ORDER BY u.name DESC"
+            query = "SELECT e FROM Event"
     )
     ,
     @NamedQuery(name = "findEventById",
@@ -41,6 +40,10 @@ import javax.persistence.Table;
             query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE e.name = :name AND t.idTxoko=:idTxoko ORDER BY u.name DESC"
     )
 })*/
+@NamedQuery(name="findAll",
+        query="SELECT e FROM Event e"
+        )
+@XmlRootElement
 public class Event implements Serializable {
 
     private static long serialVersionUID = 1L;
@@ -136,6 +139,7 @@ public class Event implements Serializable {
     /**
      * @return the date
      */
+    
     public Timestamp getDate() {
         return date;
     }
@@ -143,6 +147,7 @@ public class Event implements Serializable {
     /**
      * @param date the date to set
      */
+    
     public void setDate(Timestamp date) {
         this.date = date;
     }
@@ -192,6 +197,7 @@ public class Event implements Serializable {
     /**
      * @return the txokos
      */
+    @XmlTransient
     public List<Txoko> getTxokos() {
         return txokos;
     }
@@ -206,6 +212,7 @@ public class Event implements Serializable {
     /**
      * @return the users
      */
+    @XmlTransient
     public List<User> getUsers() {
         return users;
     }
