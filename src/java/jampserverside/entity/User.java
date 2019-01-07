@@ -66,7 +66,7 @@ public class User implements Serializable {
      *
      */
     @ManyToMany
-    @JoinTable(name = "UserEvent")
+    @JoinTable(name = "UserEvent", schema="jampdb")
     private List<Event> events;
     /**
      *

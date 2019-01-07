@@ -66,7 +66,7 @@ public class ExpenseREST {
      * @return
      */
     @GET
-    @Path("idTxoko")
+    @Path("idtxoko/idTxoko")
     @Produces({MediaType.APPLICATION_XML})
     public List<Expense> findMonthExpensesUsers(@PathParam("idTxoko") Integer idTxoko) {
         List<Expense> expenses = null;

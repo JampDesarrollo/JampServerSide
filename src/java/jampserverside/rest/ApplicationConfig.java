@@ -30,7 +30,6 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(jampserverside.rest.ExpenseREST.class);
-        resources.add(jampserverside.rest.TxokoREST.class);
         resources.add(jampserverside.rest.UserREST.class);
     }
     

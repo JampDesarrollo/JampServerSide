@@ -15,20 +15,51 @@ import jampserverside.exception.UpdateException;
 import jampserverside.exception.UserLoginExistException;
 import jampserverside.exception.UserNotExistException;
 import java.util.List;
+import javax.ejb.Local;
 
 /**
  *
- * @author 2dam
+ * @author ander
  */
+@Local
 public interface UserManagerEJBLocal {
+    /**
+     * 
+     * @param user
+     * @throws DeleteException 
+     */
     public void deleteUser(User user) throws DeleteException;
-    
+    /**
+     * 
+     * @param user
+     * @throws UpdateException 
+     */
     public void updateUser(User user) throws UpdateException;
-    
-    public List<User> findAllTxokoUsers(User user) throws ReadException;
-    
-    public void createUser (User user) throws CreateException,UserLoginExistException, TxokoNotExistException;
-    
-    public User findUserByLogin(String login) throws ReadException,PasswordNotOkException, UserNotExistException;
-    
+    /**
+     * 
+     * @param idTxoko
+     * @return
+     * @throws ReadException 
+     */
+    public List<User> findAllTxokoUsers(Integer idTxoko) throws ReadException;
+    /**
+     * 
+     * @param user
+     * @throws CreateException
+     * @throws UserLoginExistException
+     * @throws TxokoNotExistException 
+     */
+    public void createUser(User user) throws CreateException,
+            UserLoginExistException, TxokoNotExistException;
+    /**
+     * 
+     * @param login
+     * @return
+     * @throws ReadException
+     * @throws PasswordNotOkException
+     * @throws UserNotExistException 
+     */
+    public User findUserByLogin(String login) throws ReadException,
+            PasswordNotOkException, UserNotExistException;
+
 }
