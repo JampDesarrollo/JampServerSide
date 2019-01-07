@@ -46,7 +46,11 @@ public class ProductREST{
     @EJB
     private ProductEJBLocal ejb;
 
-
+    /**
+     * 
+     * @param product
+     * @throws CreateException 
+     */
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createProduct(Product product) throws CreateException {
@@ -61,6 +65,11 @@ public class ProductREST{
         }    
     }
 
+    /**
+     * 
+     * @param product
+     * @throws UpdateException 
+     */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void updateProduct(Product product) throws UpdateException {
@@ -76,6 +85,11 @@ public class ProductREST{
     }
 
 
+    /**
+     * 
+     * @param product
+     * @throws DeleteException 
+     */
     @DELETE
     @Consumes({MediaType.APPLICATION_XML})
     public void deleteProduct(Product product) throws DeleteException {
@@ -90,6 +104,13 @@ public class ProductREST{
         }  
     }
 
+    /**
+     * 
+     * @param id
+     * @param idTxoko
+     * @return
+     * @throws ReadException 
+     */
     @GET
     @Path("id/{id}/txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
@@ -107,13 +128,20 @@ public class ProductREST{
         return product;
     }
 
+    /**
+     * 
+     * @param name
+     * @param idTxoko
+     * @return
+     * @throws ReadException 
+     */
     @GET
     @Path("name/{name}/txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
     public List<Product> findProductByName(@PathParam("name") String name,@PathParam("idTxoko") int idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("Product: Finding product by name.");
+            LOGGER.info("ProductManager: Finding product by name.");
             product=ejb.findProductByName(name, idTxoko);
            // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
         }catch(Exception e){
@@ -140,16 +168,22 @@ public class ProductREST{
         return product;    
     }
     */
-       @GET
+    
+    /**
+     * 
+     * @return
+     * @throws ReadException 
+     */
+    @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Product> findAllProducts() throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("Product: Finding all products.");
+            LOGGER.info("ProductManager: Finding all products.");
             product=ejb.findAllProducts();
             LOGGER.log(Level.INFO,"ProductManager: {0} products found.",product.size());
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "UserManager: Exception Finding user by login:",
+            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding user by login:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
