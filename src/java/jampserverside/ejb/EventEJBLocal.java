@@ -16,7 +16,7 @@ import jampserverside.exception.ReadException;
 import jampserverside.exception.UpdateException;
 
 /**
- * The interface with all the empy methods
+ * The interface with all the empy methods.
  * @author paula
  */
 public interface EventEJBLocal {

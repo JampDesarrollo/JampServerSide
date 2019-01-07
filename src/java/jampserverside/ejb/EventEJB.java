@@ -22,7 +22,7 @@ import javax.persistence.EntityManager;
 //en el lado servidor no hay que almacenar el estado del cliente
 @Stateless
 /**
- * the class that implements the interface
+ * The class that implements the interface
  *
  * @author paula
  */

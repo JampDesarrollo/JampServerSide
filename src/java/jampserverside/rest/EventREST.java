@@ -40,7 +40,7 @@ import javax.ws.rs.core.MediaType;
 public class EventREST {
 
     /**
-     * Logger for class methods.
+     * Logger for class methods..
      */
 
     private static final Logger LOGGER
