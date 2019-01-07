@@ -11,7 +11,6 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import java.util.Date;
 import java.util.Objects;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -25,7 +24,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Table(name = "expense", schema = "jampdb")
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name = "findAllExpensesUsers",
             query = "SELECT u FROM Expense u WHERE u.idUser=("
             + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
@@ -35,7 +34,7 @@ import javax.persistence.ManyToOne;
             query = "SELECT u FROM Expense u WHERE u.date=sysdatetime() AND u.idUser=("
             + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
     )
-})
+})*/
 public class Expense implements Serializable {
 
     private static final long serialVersionUID = 1L;
