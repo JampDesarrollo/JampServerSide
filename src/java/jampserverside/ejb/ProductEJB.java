@@ -5,6 +5,7 @@
  */
 package jampserverside.ejb;
 
+import jampserverside.entity.Event;
 import jampserverside.entity.Product;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.DeleteException;
@@ -77,7 +78,7 @@ public class ProductEJB implements ProductEJBLocal{
                     .setParameter("name", name)
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-            LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+            LOGGER.log(Level.INFO,"ProductEJB: User found {0}");
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding product by idToko and name:",
                     e.getMessage());
@@ -96,13 +97,13 @@ public class ProductEJB implements ProductEJBLocal{
     public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("ProductEJB: Finding all products.");
+            LOGGER.info("ProductEJB: Finding all products by txoko.");
             product=(List<Product>)em.createNamedQuery("findAllProductByTxoko")
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-            LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+            LOGGER.log(Level.INFO,"ProductEJB: Txoko found {0}");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding user by login:",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding products by txoko:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
@@ -114,7 +115,7 @@ public class ProductEJB implements ProductEJBLocal{
         try{
             LOGGER.info("ProductEJB: Finding all products.");
             product=(List<Product>)em.createNamedQuery("findAllProducts").getResultList();
-            //LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+            LOGGER.log(Level.INFO,"ProductEJB: User found {0}");
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding user by login:",
                     e.getMessage());
@@ -155,7 +156,7 @@ public class ProductEJB implements ProductEJBLocal{
                     .setParameter("idProduct", idProduct)
                     .setParameter("idTxoko", idTxoko)
                     .getSingleResult();
-            LOGGER.log(Level.INFO, "ProductManager: User found {0}", product.getIdProduct());
+            LOGGER.log(Level.INFO, "ProductManager: User found {0}");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idProduct and idTxoko:",
                     e.getMessage());
@@ -163,7 +164,7 @@ public class ProductEJB implements ProductEJBLocal{
         }
         return product;
     }
-
+    
     /**
      * 
      * @param product

@@ -7,6 +7,7 @@ package jampserverside.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import static javax.persistence.FetchType.EAGER;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -69,7 +69,7 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(mappedBy="products", fetch=EAGER)
+    @ManyToMany(mappedBy="products", fetch=EAGER, cascade = CascadeType.REMOVE)
     private List<Txoko> txokos;
     
     public Integer getIdProduct() {

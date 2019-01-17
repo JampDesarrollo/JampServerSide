@@ -5,6 +5,7 @@
  */
 package jampserverside.ejb;
 
+import jampserverside.entity.Event;
 import jampserverside.entity.Product;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.DeleteException;
@@ -90,8 +91,5 @@ public interface ProductEJBLocal {
      * @throws ReadException 
      */
     public Product findProductByIdByTxoko(Integer idProduct, Integer idTxoko) throws ReadException;
-
-    
-    
-    
+   
 }
