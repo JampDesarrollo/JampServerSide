@@ -45,11 +45,11 @@ public class TelephoneEJB implements TelephoneEJBLocal{
     public List<Telephone> findAllTelephones() throws ReadException {
         List<Telephone> telephone=null;
         try{
-            LOGGER.info("TelephoneManager: Finding all telephones.");
+            LOGGER.info("TelephoneEJB: Finding all telephones.");
             telephone=(List<Telephone>)em.createNamedQuery("findAllTelephones").getResultList();
            // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "TelephoneManager: Exception Finding telephone by login:",
+            LOGGER.log(Level.SEVERE, "TelephoneEJB: Exception Finding telephone by login:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
@@ -64,12 +64,12 @@ public class TelephoneEJB implements TelephoneEJBLocal{
      */
     @Override
     public void createTelephone(Telephone telephone) throws CreateException {
-        LOGGER.info("TelephoneManager: Creating telephone.");
+        LOGGER.info("TelephoneEJB: Creating telephone.");
         try{
             em.persist(telephone);
-            LOGGER.info("TelephoneManager: Telephone created.");
+            LOGGER.info("TelephoneEJB: Telephone created.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "TeleponeManager: Exception creating telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneEJB: Exception creating telephone.{0}",
                     e.getMessage());
             throw new CreateException(e.getMessage());
         }    
@@ -82,12 +82,12 @@ public class TelephoneEJB implements TelephoneEJBLocal{
      */
     @Override
     public void updateTelephone(Telephone telephone) throws UpdateException {
-        LOGGER.info("TelephoneManager: Updating telephone.");
+        LOGGER.info("TelephoneEJB: Updating telephone.");
         try{
             em.merge(telephone);
-            LOGGER.info("TelephoneManager: telephone updated.");
+            LOGGER.info("TelephoneEJB: telephone updated.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "TelephoneManager: Exception updating telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneEJB: Exception updating telephone.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }  
@@ -100,13 +100,13 @@ public class TelephoneEJB implements TelephoneEJBLocal{
      */
     @Override
     public void deleteTelephone(Telephone telephone) throws DeleteException {
-        LOGGER.info("TelephoneManager: Deleting telephone.");
+        LOGGER.info("TelephoneEJB: Deleting telephone.");
         try{
             telephone = em.merge(telephone);
             em.remove(telephone);
-            LOGGER.info("TelephoneManager: telephone deleted.");
+            LOGGER.info("TelephoneEJB: telephone deleted.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "TelephoneManager: Exception deleting telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneEJB: Exception deleting telephone.{0}",
                     e.getMessage());
             throw new DeleteException(e.getMessage());
         }  

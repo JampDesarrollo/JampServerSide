@@ -25,7 +25,7 @@ public interface ProductEJBLocal {
      * @return
      * @throws ReadException 
      */
-    public Product find(String name, int idTxoko) throws ReadException;
+    public Product find(String name, Integer idTxoko) throws ReadException;
     
     /**
      * 
@@ -34,7 +34,7 @@ public interface ProductEJBLocal {
      * @return
      * @throws ReadException 
      */
-    public List<Product> findProductByName(String name, int idTxoko) throws ReadException;
+    public List<Product> findProductByName(String name, Integer idTxoko) throws ReadException;
     
     /**
      * 
@@ -42,7 +42,7 @@ public interface ProductEJBLocal {
      * @return
      * @throws ReadException 
      */
-    public List<Product> findAllProductsByTxoko(int idTxoko) throws ReadException;
+    public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException;
     
     /**
      * 
@@ -51,6 +51,15 @@ public interface ProductEJBLocal {
      * @throws ReadException 
      */
     public List<Product> findAllProducts() throws ReadException;
+    
+    /**
+     * 
+     * @param idProduct
+     * @return
+     * @throws ReadException 
+     */
+    public Product findProductsById(Integer idProduct) throws ReadException;
+    
     
     /**
      * 
@@ -72,6 +81,16 @@ public interface ProductEJBLocal {
      * @throws DeleteException 
      */
     public void deleteProduct(Product product) throws DeleteException;
+
+    /**
+     * 
+     * @param idProduct
+     * @param idTxoko
+     * @return
+     * @throws ReadException 
+     */
+    public Product findProductByIdByTxoko(Integer idProduct, Integer idTxoko) throws ReadException;
+
     
     
     
