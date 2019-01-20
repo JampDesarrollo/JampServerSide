@@ -69,7 +69,7 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(mappedBy="products", fetch=EAGER, cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy="products", fetch=EAGER, cascade = CascadeType.ALL)
     private List<Txoko> txokos;
     
     public Integer getIdProduct() {
@@ -152,7 +152,7 @@ public class Product implements Serializable {
     /**
      * @return the txokos
      */
-   // @XmlTransient
+    //@XmlTransient
     public List<Txoko> getTxokos() {
         return txokos;
     }

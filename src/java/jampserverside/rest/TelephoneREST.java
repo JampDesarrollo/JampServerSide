@@ -53,12 +53,12 @@ public class TelephoneREST{
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createTelephone(Telephone telephone) throws CreateException {
-        LOGGER.info("TelephoneManager: Creating telephone.");
+        LOGGER.info("TelephoneREST: Creating telephone.");
         try{
             ejb.createTelephone(telephone);
-            LOGGER.info("TelephoneManager: Telephone created.");
+            LOGGER.info("TelephoneREST: Telephone created.");
         }catch(CreateException e){
-            LOGGER.log(Level.SEVERE, "TeleponeManager: Exception creating telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneREST: Exception creating telephone.{0}",
                     e.getMessage());
             throw new CreateException(e.getMessage());
         }    
@@ -72,12 +72,12 @@ public class TelephoneREST{
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
      public void updateTelephone(Telephone telephone) throws UpdateException {
-        LOGGER.info("TelephoneManager: Updating telephone.");
+        LOGGER.info("TelephoneREST: Updating telephone.");
         try{
             ejb.updateTelephone(telephone);
-            LOGGER.info("TelephoneManager: telephone updated.");
+            LOGGER.info("TelephoneREST: telephone updated.");
         }catch(UpdateException e){
-            LOGGER.log(Level.SEVERE, "TelephoneManager: Exception updating telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneREST: Exception updating telephone.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }  
@@ -91,12 +91,12 @@ public class TelephoneREST{
     @DELETE
     @Consumes({MediaType.APPLICATION_XML})
     public void deleteTelephone(Telephone telephone) throws DeleteException {
-        LOGGER.info("TelephoneManager: Deleting telephone.");
+        LOGGER.info("TelephoneREST: Deleting telephone.");
         try{
             ejb.deleteTelephone(telephone);
-            LOGGER.info("TelephoneManager: telephone deleted.");
+            LOGGER.info("TelephoneREST: telephone deleted.");
         }catch(DeleteException e){
-            LOGGER.log(Level.SEVERE, "TelephoneManager: Exception deleting telephone.{0}",
+            LOGGER.log(Level.SEVERE, "TelephoneREST: Exception deleting telephone.{0}",
                     e.getMessage());
             throw new DeleteException(e.getMessage());
         }  
@@ -113,11 +113,11 @@ public class TelephoneREST{
     public List<Telephone> findAllProducts(int idTxoko) throws ReadException {
         List<Telephone> telephone=null;
         try{
-            LOGGER.info("TelephoneRest: Finding all telephone.");
+            LOGGER.info("TelephoneREST: Finding all telephone.");
             telephone=ejb.findAllTelephones();
-            LOGGER.log(Level.INFO,"TelephoneRest: User found {0}",telephone.get(idTxoko));
+            LOGGER.log(Level.INFO,"TelephoneREST: User found {0}",telephone.get(idTxoko));
         }catch(ReadException e){
-            LOGGER.log(Level.SEVERE, "TelephoneRest: Exception Finding user by login:",
+            LOGGER.log(Level.SEVERE, "TelephoneREST: Exception Finding user by login:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }

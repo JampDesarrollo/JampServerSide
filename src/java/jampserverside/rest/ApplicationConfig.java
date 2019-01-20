@@ -31,6 +31,7 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(jampserverside.rest.EventREST.class);
         resources.add(jampserverside.rest.ProductREST.class);
+       // resources.add(jampserverside.rest.TelephoneREST.class);
         resources.add(jampserverside.rest.TelephoneREST.class);
     }
     

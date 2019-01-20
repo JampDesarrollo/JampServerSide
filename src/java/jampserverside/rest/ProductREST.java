@@ -168,7 +168,7 @@ public class ProductREST{
         try{
             LOGGER.info("ProductRest: Finding product by name.");
             product=ejb.findProductByName(name, idTxoko);
-            LOGGER.log(Level.INFO,"ProductRest: User found {0}");
+            LOGGER.log(Level.INFO,"ProductRest: Product found {0}");
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding product by idToko and name:",
                     e.getMessage());
@@ -198,17 +198,21 @@ public class ProductREST{
         return product;    
     }
     
+    /**
+     * 
+     * @return
+     * @throws ReadException 
+     */
     @GET
-    @Path("txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Product> findAllProductsByTxoko( @PathParam("idTxoko") Integer idTxoko) throws ReadException {
+    public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("ProductRest: Finding all products by txoko.");
+            LOGGER.info("ProductRest: Finding all products.");
             product=ejb.findAllProductsByTxoko(idTxoko);
             LOGGER.log(Level.INFO,"ProductRest: {0} products found.",product.size());
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding products by txoko:",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding user by login:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
