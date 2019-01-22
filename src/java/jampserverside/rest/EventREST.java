@@ -11,6 +11,8 @@ package jampserverside.rest;
 
 import jampserverside.ejb.EventEJBLocal;
 import jampserverside.entity.Event;
+import jampserverside.entity.Expense;
+import jampserverside.entity.User;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.DeleteException;
 import jampserverside.exception.IdNotOkException;
@@ -24,6 +26,7 @@ import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -53,18 +56,19 @@ public class EventREST {
     private EventEJBLocal ejb;
 
     @DELETE
-    @Consumes({MediaType.APPLICATION_XML})
-    public void deleteEvent(Event event){
+    @Path("idEvent/{idEvent}")
+  //  @Consumes({MediaType.APPLICATION_XML})
+    public void deleteEvent(@PathParam("idEvent") Integer idEvent)throws ReadException, IdNotOkException{
+         LOGGER.log(Level.INFO, "EventRESTful service: delete event");
         try {
             LOGGER.log(Level.INFO, "EventRESTful service: delete event");
-            ejb.deleteEvent(event);
+            ejb.deleteEvent(ejb.findEventById(idEvent));
         } catch (DeleteException e) {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception deleting user by id, {0}",
                     e.getMessage());
         }
     }
-
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createEvent(Event event) {
@@ -82,13 +86,17 @@ public class EventREST {
     public List<Event> findAll() {
         List<Event> events = null;
         try {
-            events = ejb.findAll();
+               LOGGER.log(Level.INFO,
+                    "EventRESTful service: finding ALL EVENTS");
+            events = ejb.findAll();           
         } catch (ReadException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventRESTful service: Exception reading event, {0}",
+                    "EventRESTful service: Exception reading all event, {0}",
                     e.getMessage());
         }
+         LOGGER.log(Level.INFO, "Aqui los eventos los devuelve al restful client.", events);
         return events;
+        
     }
 
     
@@ -98,10 +106,12 @@ public class EventREST {
     public List<Event> findAllEvents(@PathParam("idTxoko") Integer idTxoko) {
         List<Event> events = null;
         try {
+            LOGGER.log(Level.INFO,
+                    "EventRESTful service: finding all elements of my txoko");
             events = ejb.findAllEvents(idTxoko);
         } catch (ReadException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventRESTful service: Exception reading event, {0}",
+                    "EventRESTful service: Exception reading all event of my txoko, {0}",
                     e.getMessage());
         }
         return events;
@@ -110,13 +120,15 @@ public class EventREST {
     @GET
     @Path("idEvent/{idEvent}/idTxoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
-    public Event findEventById(@PathParam("idEvent") Integer idEvent, @PathParam("idTxoko") Integer idTxoko) {
+    public Event findEventByIdByTxoko(@PathParam("idEvent") Integer idEvent, @PathParam("idTxoko") Integer idTxoko) {
         Event event = null;
         try {
-            event = ejb.findEventById(idEvent, idTxoko);
+             LOGGER.log(Level.INFO,
+                    "EventRESTful service: finding element by id");
+            event = ejb.findEventByIdByTxoko(idEvent, idTxoko);
         } catch (ReadException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventRESTful service: Exception reading event, {0}",
+                    "EventRESTful service: Exception reading event with the id, {0}",
                     e.getMessage());
         } catch (IdNotOkException e) {
             LOGGER.log(Level.SEVERE,
@@ -126,6 +138,26 @@ public class EventREST {
         return event;
     }
 
+    @GET
+    @Path("idEvent/{idEvent}")
+    @Produces({MediaType.APPLICATION_XML})
+    public Event findEventById(@PathParam("idEvent") Integer idEvent) {
+        Event event = null;
+        try {
+             LOGGER.log(Level.INFO,
+                    "EventRESTful service: finding element by id");
+            event = ejb.findEventById(idEvent);
+        } catch (ReadException e) {
+            LOGGER.log(Level.SEVERE,
+                    "EventRESTful service: Exception reading event with the id, {0}",
+                    e.getMessage());
+        } catch (IdNotOkException e) {
+            LOGGER.log(Level.SEVERE,
+                    "ID DEL EVENTO ERRONEO",
+                    e.getMessage());
+        }
+        return event;
+    }
     
     @GET
     @Path("name/{name}/txoko/{idTxoko}")
@@ -133,10 +165,12 @@ public class EventREST {
     public Event findEventByName(@PathParam("name") String name, @PathParam("idTxoko") Integer idTxoko) {
         Event event = null;
         try {
+            LOGGER.log(Level.INFO,
+                    "EventRESTful service: finding element by name");
             event = ejb.findEventByName(name, idTxoko);
         } catch (ReadException e) {
             LOGGER.log(Level.SEVERE,
-                    "EventRESTful service: Exception reading event, {0}",
+                    "EventRESTful service: Exception reading event with the name, {0}",
                     e.getMessage());
         } catch (NameNotOkException e) {
             LOGGER.log(Level.SEVERE,
@@ -144,20 +178,36 @@ public class EventREST {
                     e.getMessage());
         }
         return event;
-    }
-    
+    }   
+    //MODIFICAR UN EVENTO
     @PUT
-    @Path("idEvent/{idEvent}/idUser/{idUser}")
-    @Consumes({MediaType.APPLICATION_XML})
-    public void attendEvent(@PathParam("idEvent") Integer idEvent, @PathParam("idUser") Integer idUser) {
+    @Consumes({"application/xml"})
+    public void update(Event event) {
         try {
-            LOGGER.log(Level.INFO, "EventRESTful service: update event {0}.");
-            ejb.attendEvent(idEvent, idUser);
-        } catch (UpdateException e) {
+            LOGGER.log(Level.INFO,"EventRESTful service: update {0}.",event);
+            ejb.updateUser(event);
+        } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception updating event, {0}",
-                    e.getMessage());
+                    ex.getMessage());
+            throw new InternalServerErrorException(ex);
         }
     }
-
+    
+    //MOVILES 
+    //crear una entrada en la tabla event - user 
+    /*
+    @POST
+    @Consumes({MediaType.APPLICATION_XML})
+    public void createEventUser(Event event, User user) {
+        try {
+            LOGGER.log(Level.INFO, "EventRESTful service: creating an event for a user {0}.", event);
+            ejb.createEventUser(event, user);
+        } catch (CreateException ex) {
+            LOGGER.log(Level.SEVERE,
+                    "EventRESTful service: Exception creating event, {0}",
+                    ex.getMessage());
+        }
+    }
+ */
 }

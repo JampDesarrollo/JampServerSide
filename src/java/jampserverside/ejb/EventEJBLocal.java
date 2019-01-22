@@ -5,38 +5,42 @@
  */
 package jampserverside.ejb;
 
-
 import java.util.List;
 import jampserverside.entity.Event;
+import jampserverside.entity.User;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.DeleteException;
 import jampserverside.exception.IdNotOkException;
 import jampserverside.exception.NameNotOkException;
 import jampserverside.exception.ReadException;
 import jampserverside.exception.UpdateException;
+import javax.ejb.Local;
 
 /**
  * The interface with all the empy methods.
+ *
  * @author paula
  */
+@Local
 public interface EventEJBLocal {
-     
+
     /**
      * Method to delete an event
      *
      * @param event we send an event
      * @throws DeleteException if something is wrong, throws this exception
      */
-    public void deleteEvent(Event event)throws DeleteException;
-    
-     /**
+    public void deleteEvent(Event event) throws DeleteException;
+
+    /**
      * Methos to create an event
+     *
      * @param event we send the data that we put in the client side
      * @throws CreateException if something is wrong it throws this exception
      */
-    public void createEvent(Event event)throws CreateException;
-    
-     /**
+    public void createEvent(Event event) throws CreateException;
+
+    /**
      * Method to select all the events of our txoko
      *
      * @param idTxoko the id of the txoko
@@ -44,9 +48,9 @@ public interface EventEJBLocal {
      * @throws ReadException if something is wrong it throws this exception
      */
     public List<Event> findAll() throws ReadException;
-    
+
     public List<Event> findAllEvents(Integer idTxoko) throws ReadException;
-    
+
     /**
      * Method to select a specific event
      *
@@ -56,9 +60,9 @@ public interface EventEJBLocal {
      * @throws ReadException if something is wrong it throws this exception
      * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
-    public Event findEventById(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException;
-    
-   /**
+    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException;
+
+    /**
      * Method to select a specific event
      *
      * @param name we send the name of the event
@@ -68,16 +72,13 @@ public interface EventEJBLocal {
      * @throws NameNotOkException if the name doesn't exist it throws this
      * exception
      */
-    public Event findEventByName(String name, Integer idTxoko)throws ReadException, NameNotOkException;
+    public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException;
     
-     /**
-     * If we attend to an event it would do an update
-     *
-     * @param idEvent we send the id of the event
-     * @param idUser we send the id of the user
-     * @throws UpdateException if something is wrong it throws this exception
-     */
+    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException;
+    
+    public void updateUser(Event event) throws UpdateException;
+    
     //esto es para moviles
-    public void attendEvent(Integer idEvent, Integer idUser)throws UpdateException;
+   // public void createEventUser(Event event, User user)throws CreateException;
 
 }

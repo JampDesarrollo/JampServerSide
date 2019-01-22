@@ -96,11 +96,11 @@ public class ProductEJB implements ProductEJBLocal{
     public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("ProductEJB: Finding all products.");
+            LOGGER.info("ProductEJB: Finding all products By Txoko.");
             product=(List<Product>)em.createNamedQuery("findAllProductByTxoko")
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-            LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+            LOGGER.log(Level.INFO,"ProductEJB: finding products by txoko {0}");
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding user by login:",
                     e.getMessage());
@@ -155,7 +155,7 @@ public class ProductEJB implements ProductEJBLocal{
                     .setParameter("idProduct", idProduct)
                     .setParameter("idTxoko", idTxoko)
                     .getSingleResult();
-            LOGGER.log(Level.INFO, "ProductManager: User found {0}", product.getIdProduct());
+            LOGGER.log(Level.INFO, "ProductManager: User found {0}");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idProduct and idTxoko:",
                     e.getMessage());
@@ -212,7 +212,8 @@ public class ProductEJB implements ProductEJBLocal{
     public void deleteProduct(Product product) throws DeleteException {
         LOGGER.info("ProductEJB: Deleting product.");
         try{
-            product = em.merge(product);
+            if(!em.contains(product))
+                product = em.merge(product);
             em.remove(product);
             LOGGER.info("ProductEJB: Product deleted.");
         }catch(Exception e){

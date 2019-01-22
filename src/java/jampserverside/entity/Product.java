@@ -7,12 +7,13 @@ package jampserverside.entity;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
-import static javax.persistence.FetchType.EAGER;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -69,7 +70,8 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(mappedBy="products", fetch=EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade={MERGE}, fetch=FetchType.EAGER)
+    @JoinTable(name = "TxokoProduct", schema="jampdb")
     private List<Txoko> txokos;
     
     public Integer getIdProduct() {
