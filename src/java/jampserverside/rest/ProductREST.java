@@ -54,12 +54,12 @@ public class ProductREST{
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createProduct(Product product) throws CreateException {
-        LOGGER.info("ProductManager: Creating product.");
+        LOGGER.info("ProductRest: Creating product.");
         try{
             ejb.createProduct(product);
-            LOGGER.info("ProductManager: Product created.");
+            LOGGER.info("ProductRest: Product created.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception creating product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception creating product.{0}",
                     e.getMessage());
             throw new CreateException(e.getMessage());
         }    
@@ -73,12 +73,12 @@ public class ProductREST{
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
     public void updateProduct(Product product) throws UpdateException {
-        LOGGER.info("ProductManager: Updating product.");
+        LOGGER.info("ProductRest: Updating product.");
         try{
             ejb.updateProduct(product);
-            LOGGER.info("ProductManager: Product updated.");
+            LOGGER.info("ProductRest: Product updated.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception updating product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception updating product.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }  
@@ -91,15 +91,18 @@ public class ProductREST{
      * @throws DeleteException 
      */
     @DELETE
-    @Consumes({MediaType.APPLICATION_XML})
-    public void deleteProduct(Product product) throws DeleteException {
-        LOGGER.info("ProductManager: Deleting product.");
+    @Path("idProducto/{idProduct}")
+    public void deleteProduct(@PathParam("idProduct") Integer idProduct) throws DeleteException {
+        LOGGER.info("ProductRest: Deleting product.");
         try{
+            Product product = ejb.findProductsById(idProduct);
             ejb.deleteProduct(product);
-            LOGGER.info("ProductManager: Product deleted.");
+
+            LOGGER.info("ProductRest: Product deleted.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception deleting product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception deleting product.{0}",
                     e.getMessage());
+            e.printStackTrace();
             throw new DeleteException(e.getMessage());
         }  
     }
@@ -112,14 +115,14 @@ public class ProductREST{
      * @throws ReadException 
      */
     @GET
-    @Path("id/{id}/txoko/{idTxoko}")
+    @Path("idProduct/{idProduct}/txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
-    public Product find(@PathParam("id") String id, @PathParam("idTxoko") int idTxoko) throws ReadException {
+    public Product findProductByIdByTxoko(@PathParam("idProduct") Integer idProduct, @PathParam("idTxoko") Integer idTxoko) throws ReadException {
         Product product=null;
         try{
             LOGGER.info("ProductManager: Finding product by id.");
-            product=ejb.find(id, idTxoko);
-            LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.getId());
+            product=ejb.findProductByIdByTxoko(idProduct, idTxoko);
+            LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.getIdProduct());
         }catch(Exception e){
             LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idProduct and idTxoko:",
                     e.getMessage());
@@ -130,6 +133,27 @@ public class ProductREST{
 
     /**
      * 
+     * @param id
+     * @return
+     * @throws ReadException 
+     */
+    @GET
+    @Path("idProducto/{idProduct}")
+    @Produces({MediaType.APPLICATION_XML})
+    public Product findProductsById(@PathParam("idProduct") Integer idProduct){
+        Product product=null;
+        try{
+            LOGGER.info("ProductRest: Finding product by id.");
+            product = ejb.findProductsById(idProduct);
+            LOGGER.log(Level.INFO,"ProductRest: Prodcut found {0}");
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding product by idProduct:",
+                    e.getMessage());
+        }
+        return product;
+    }
+    /**
+     * 
      * @param name
      * @param idTxoko
      * @return
@@ -138,36 +162,19 @@ public class ProductREST{
     @GET
     @Path("name/{name}/txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
-    public List<Product> findProductByName(@PathParam("name") String name,@PathParam("idTxoko") int idTxoko) throws ReadException {
+    public List<Product> findProductByName(@PathParam("name") String name,@PathParam("idTxoko") Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("ProductManager: Finding product by name.");
+            LOGGER.info("ProductRest: Finding product by name.");
             product=ejb.findProductByName(name, idTxoko);
-           // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
+            LOGGER.log(Level.INFO,"ProductRest: Product found {0}");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idToko and name:",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding product by idToko and name:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
         return product;
     }
-
- /*   @GET
-    @Produces({MediaType.APPLICATION_XML})
-    public List<Product> findAllProducts(int idTxoko) throws ReadException {
-        List<Product> product=null;
-        try{
-            LOGGER.info("Product: Finding all products.");
-            product=ejb.findAllProducts(idTxoko);
-            LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko));
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "UserManager: Exception Finding user by login:",
-                    e.getMessage());
-            throw new ReadException(e.getMessage());
-        }
-        return product;    
-    }
-    */
     
     /**
      * 
@@ -176,16 +183,36 @@ public class ProductREST{
      */
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    public List<Product> findAllProducts() throws ReadException {
+    public List<Product> findAllProducts(){
         List<Product> product=null;
         try{
-            LOGGER.info("ProductManager: Finding all products.");
+            LOGGER.info("ProductRest: Finding all products.");
             product=ejb.findAllProducts();
-            LOGGER.log(Level.INFO,"ProductManager: {0} products found.",product.size());
+            LOGGER.log(Level.INFO,"ProductRest: {0} products found.",product.size());
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding user by login:",
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding all products:",
                     e.getMessage());
-            throw new ReadException(e.getMessage());
+        }
+        return product;    
+    }
+    
+    /**
+     * 
+     * @return
+     * @throws ReadException 
+     */
+    @GET
+    @Path("txoko/{idTxoko}")
+    @Produces({MediaType.APPLICATION_XML})
+    public List<Product> findAllProductsByTxoko(@PathParam("idTxoko") Integer idTxoko) {
+        List<Product> product=null;
+        try{
+            LOGGER.info("ProductRest: Finding all products.");
+            product=ejb.findAllProductsByTxoko(idTxoko);
+            LOGGER.log(Level.INFO,"ProductRest: {0} products found.",product.size());
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception Finding user by login:",
+                    e.getMessage());
         }
         return product;    
     }

@@ -6,16 +6,24 @@
 package jampserverside.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.CascadeType.MERGE;
+import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -27,22 +35,22 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 //LAS SELECTS
 @Table(name = "event", schema = "jampdb")
-/*@NamedQueries({
+@NamedQueries({
+    @NamedQuery(name="findAll",
+        query="SELECT e FROM Event e"
+        ),
     @NamedQuery(name = "findAllEvents",
-            query = "SELECT e FROM Event"
+            query = "SELECT e FROM Event e JOIN e.txokos t WHERE t.idTxoko = :idTxoko"
     )
     ,
-    @NamedQuery(name = "findEventById",
-            query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE t.idEvent = :idEvent AND t.idTxoko=:idTxoko ORDER BY u.name DESC"
+    @NamedQuery(name = "findEventByIdByTxoko",
+            query = "SELECT e FROM Event e JOIN e.txokos t WHERE t.idTxoko = :idTxoko AND e.idEvent = :idEvent"
     )
     ,
     @NamedQuery(name = "findEventByName",
-            query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE e.name = :name AND t.idTxoko=:idTxoko ORDER BY u.name DESC"
+            query = "SELECT e FROM Event e JOIN e.txokos t WHERE t.idTxoko = :idTxoko AND e.name = :name"
     )
-})*/
-@NamedQuery(name="findAll",
-        query="SELECT e FROM Event e"
-        )
+})
 @XmlRootElement
 public class Event implements Serializable {
 
@@ -65,7 +73,8 @@ public class Event implements Serializable {
     /**
      * The date of the event
      */
-    private Timestamp date;
+    
+    private Date date;
 
     /**
      * The price of the event
@@ -85,13 +94,14 @@ public class Event implements Serializable {
     /**
      *
      */
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(cascade={MERGE},fetch=FetchType.EAGER)
+    @JoinTable(name = "TxokoEvent", schema="jampdb")
     private List<Txoko> txokos;
 
     /**
      *
      */
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(mappedBy = "events", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
     private List<User> users;
 
     /**
@@ -139,8 +149,8 @@ public class Event implements Serializable {
     /**
      * @return the date
      */
-    
-    public Timestamp getDate() {
+   
+    public Date getDate() {
         return date;
     }
 
@@ -148,7 +158,7 @@ public class Event implements Serializable {
      * @param date the date to set
      */
     
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -197,7 +207,7 @@ public class Event implements Serializable {
     /**
      * @return the txokos
      */
-    @XmlTransient
+ //   @XmlTransient
     public List<Txoko> getTxokos() {
         return txokos;
     }
@@ -212,7 +222,7 @@ public class Event implements Serializable {
     /**
      * @return the users
      */
-    @XmlTransient
+ //  @XmlTransient
     public List<User> getUsers() {
         return users;
     }
@@ -253,5 +263,7 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" + "idEvent=" + idEvent + '}';
     }
+
+
 
 }
