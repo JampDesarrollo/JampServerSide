@@ -11,7 +11,6 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,6 +40,11 @@ import javax.xml.bind.annotation.XmlRootElement;
             query = "SELECT u FROM Expense u WHERE MONTH(u.dateExpense) = MONTH(:current) AND u.user.idUser IN ("
             + "SELECT u FROM User u WHERE u.txoko.idTxoko = :idTxoko) ORDER BY u.user.idUser ASC"
     )
+        ,
+    @NamedQuery(name = "findMonthExpensesSingleUser",
+            query = "SELECT SUM(u.price) FROM Expense u WHERE MONTH(u.dateExpense) = MONTH(:current) "
+                    + "AND u.user.idUser = :idUser"
+    )
 })
 @XmlRootElement
 public class Expense implements Serializable {
@@ -55,7 +59,7 @@ public class Expense implements Serializable {
     /**
      * Id of the user.
      */
-    @ManyToOne(fetch=FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idUser")
     private User user;
     /**

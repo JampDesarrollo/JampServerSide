@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Julen
+ * @author Ander, Julen, Paula
  */
 @Entity
 @Table(name = "Txoko", schema = "jampdb")
@@ -30,7 +31,7 @@ public class Txoko implements Serializable {
     /**
      * List of {@link User} belonging to the txoko.
      */
-    @OneToMany(mappedBy = "txoko")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "txoko")
     private List<User> users;
     private static long serialVersionUID = 1L;
 
@@ -71,7 +72,7 @@ public class Txoko implements Serializable {
      */
     @ManyToMany(mappedBy = "txokos")
     private List<Event> events;
-    
+
     /**
      * @return the users
      */
@@ -232,4 +233,4 @@ public class Txoko implements Serializable {
     }
 
 
-}
+}  
