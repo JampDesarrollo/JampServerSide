@@ -73,6 +73,7 @@ public interface EventEJBLocal {
      * exception
      */
     public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException;
+
     /**
      * Methot to find an event by id
      * @param idEvent the id of the event
@@ -81,6 +82,7 @@ public interface EventEJBLocal {
      * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
     public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException;
+    
     /**
      * Method to update an event
      * @param event the event we want to update

@@ -63,6 +63,7 @@ public class EventREST {
     @DELETE
     @Path("idEvent/{idEvent}")
   //  @Consumes({MediaType.APPLICATION_XML})
+
     public void deleteEvent(@PathParam("idEvent") Integer idEvent)throws IdNotOkException{
          LOGGER.log(Level.INFO, "EventRESTful service: delete event");
         try {
@@ -74,6 +75,7 @@ public class EventREST {
                     e.getMessage());
         }
     }
+
     /**
      * Method to create an event
      * @param event the event we want to create
@@ -158,6 +160,7 @@ public class EventREST {
         }
         return event;
     }
+
     /**
      * Method to find an event 
      * @param idEvent the id of the event
@@ -183,6 +186,7 @@ public class EventREST {
         }
         return event;
     }
+
     /**
      * Method to find an event of our txoko by the name
      * @param name the name of the event
@@ -210,6 +214,7 @@ public class EventREST {
         return event;
     }   
     //MODIFICAR UN EVENTO
+
     /**
      * Method to update an event
      * @param event the event we want to update

@@ -7,14 +7,21 @@ package jampserverside.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Entity JPA class for Expenses. The properties of this class are idUser ,
@@ -24,17 +31,18 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @Table(name = "expense", schema = "jampdb")
-/*@NamedQueries({
+@NamedQueries({
     @NamedQuery(name = "findAllExpensesUsers",
-            query = "SELECT u FROM Expense u WHERE u.idUser=("
-            + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
+            query = "SELECT u FROM Expense u WHERE u.user.idUser IN ("
+            + "SELECT u FROM User u WHERE u.txoko.idTxoko = :idTxoko) ORDER BY u.dateExpense ASC"
     )
     ,
     @NamedQuery(name = "findMonthExpensesUsers",
-            query = "SELECT u FROM Expense u WHERE u.date=sysdatetime() AND u.idUser=("
-            + "SELECT u FROM User u WHERE u.idtxoko='idTxoko') ORDER BY u.idUser ASC"
+            query = "SELECT u FROM Expense u WHERE MONTH(u.dateExpense) = MONTH(:current) AND u.user.idUser IN ("
+            + "SELECT u FROM User u WHERE u.txoko.idTxoko = :idTxoko) ORDER BY u.user.idUser ASC"
     )
-})*/
+})
+@XmlRootElement
 public class Expense implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -42,17 +50,19 @@ public class Expense implements Serializable {
      *
      */
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idExpense;
     /**
      * Id of the user.
      */
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "idUser")
     private User user;
     /**
      * Date of the expense.
      */
-    private Timestamp dateExpense;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date dateExpense;
     /**
      * Type of expense.
      */
@@ -97,14 +107,14 @@ public class Expense implements Serializable {
     /**
      * @return the dateExpense
      */
-    public Timestamp getDateExpense() {
+    public Date getDateExpense() {
         return dateExpense;
     }
 
     /**
      * @param dateExpense the dateExpense to set
      */
-    public void setDateExpense(Timestamp dateExpense) {
+    public void setDateExpense(Date dateExpense) {
         this.dateExpense = dateExpense;
     }
 
@@ -179,6 +189,5 @@ public class Expense implements Serializable {
     public String toString() {
         return "Expense{" + "idExpense=" + idExpense + '}';
     }
-    
 
 }

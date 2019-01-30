@@ -12,17 +12,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 2dam
+ * @author Julen
  */
 @Entity
 @Table(name = "Txoko", schema = "jampdb")
+@XmlRootElement
 public class Txoko implements Serializable {
 
     /**
@@ -61,20 +63,19 @@ public class Txoko implements Serializable {
     /**
      * Many to many relation with Product. Creates TxokoProduct
      */
-    @ManyToMany
-    @JoinTable(name = "TxokoProduct", schema="jampdb")
+    @ManyToMany(mappedBy = "txokos")
     private List<Product> products;
 
     /**
      * Many to many relation with event. Creates TxokoEvent
      */
-    @ManyToMany
-    @JoinTable(name = "TxokoEvent", schema="jampdb")
+    @ManyToMany(mappedBy = "txokos")
     private List<Event> events;
-
+    
     /**
      * @return the users
      */
+    @XmlTransient
     public List<User> getUsers() {
         return users;
     }
@@ -173,6 +174,7 @@ public class Txoko implements Serializable {
     /**
      * @return the product
      */
+    @XmlTransient
     public List<Product> getProduct() {
         return products;
     }
@@ -187,6 +189,7 @@ public class Txoko implements Serializable {
     /**
      * @return the events
      */
+    @XmlTransient
     public List<Event> getEvents() {
         return events;
     }
@@ -227,7 +230,6 @@ public class Txoko implements Serializable {
     public String toString() {
         return "Txoko{" + "idTxoko=" + idTxoko + '}';
     }
-
 
 
 }
