@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jampserverside.entity.Event;
+import jampserverside.entity.Txoko;
+import jampserverside.entity.User;
 import javax.persistence.PersistenceContext;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.DeleteException;
@@ -20,12 +22,12 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 //en el lado servidor no hay que almacenar el estado del cliente
-@Stateless
 /**
  * The class that implements the interface
  *
  * @author paula
  */
+@Stateless
 public class EventEJB implements EventEJBLocal {
 
     /**
@@ -51,12 +53,14 @@ public class EventEJB implements EventEJBLocal {
         LOGGER.info("Deleting an event.");
         try {
             //para asegurarnos que el objeto existe antes de borrarlo
-            event = em.merge(event);
+            if(!em.contains(event))
+                event=em.merge(event);
             //borra el evento
-            em.remove(event);
-            LOGGER.info("Event deleted.");
+            em.remove(event);  
+ //           em.flush();
+            LOGGER.log(Level.INFO, "Event deleted {0}.",event.getIdEvent());
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception deleting event.{0}",
+            LOGGER.log(Level.SEVERE, "Exception deleting event: {0}",
                     e.getMessage());
             throw new DeleteException(e.getMessage());
         }
@@ -73,7 +77,8 @@ public class EventEJB implements EventEJBLocal {
 
         LOGGER.info(" Creating an event.");
         try {
-            em.persist(event); //creacion del evento
+              em.persist(event); //creacion del evento
+//            em.flush();
             LOGGER.info("Event created.");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Exception creating the event.{0}",
@@ -82,7 +87,8 @@ public class EventEJB implements EventEJBLocal {
         }
 
     }
-     @Override
+
+    @Override
     public List<Event> findAll() throws ReadException {
         List<Event> events = null;
         try {
@@ -90,15 +96,16 @@ public class EventEJB implements EventEJBLocal {
             //llamamos al metodo de crear del entity manager
             events = em.createNamedQuery("findAll")
                     .getResultList();
+             LOGGER.info("Hasta aqui llego.");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE,
                     "UserManager: Exception reading events, {0}",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
+            LOGGER.info("Le devuelve todos los eventos al restful server.");
         return events;
     }
-    
 
     /**
      * Method to select all the events of our txoko
@@ -127,7 +134,6 @@ public class EventEJB implements EventEJBLocal {
 
     /**
      * Method to select a specific event
-     *
      * @param idEvent we send the id of the event that we want to see
      * @param idTxoko we send the id of the txoko
      * @return it return the data of that specific event
@@ -135,18 +141,40 @@ public class EventEJB implements EventEJBLocal {
      * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
     @Override
-    public Event findEventById(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException {
+    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException {
         Event event = null;
         try {
-            LOGGER.info("Finding event by id.");
+            LOGGER.info("Finding event by id and by txoko.");
             //buscame el evento por el id que ponga el usuario y el id del txoko
-            event = (Event) em.createNamedQuery("findEventById")
+            event = (Event) em.createNamedQuery("findEventByIdByTxoko")
                     .setParameter("idEvent", idEvent)
                     .setParameter("idTxoko", idTxoko)
-                    .getResultList();
+                    .getSingleResult();
             LOGGER.log(Level.INFO, "Event found");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Exception Finding event:",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return event;
+    }
+       /**
+     * Methot to find an event by id
+     * @param idEvent the id of the event
+     * @return ir returns an event
+     * @throws ReadException if something is wrong it throws this exception
+     * @throws IdNotOkException if the id doesn't exist it throws this exception
+     */
+    @Override
+    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException {
+       Event event=null;
+        try{
+            LOGGER.info("EventManager: Finding event by id.");
+            event=em.find(Event.class, idEvent);
+            if(event!=null)
+                LOGGER.log(Level.INFO,"EventManager: Event found {0}",event.getIdEvent());
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "EventManager: Exception Finding event by ID:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
@@ -167,12 +195,12 @@ public class EventEJB implements EventEJBLocal {
     public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException {
         Event event = null;
         try {
-            LOGGER.info("UserManager: Finding event by name.");
+            LOGGER.info("EventManager: Finding event by name.");
             //buscame el evento por nombre y por id del txoko
             event = (Event) em.createNamedQuery("findEventByName")
                     .setParameter("name", name)
                     .setParameter("idTxoko", idTxoko)
-                    .getResultList();
+                    .getSingleResult();
             LOGGER.log(Level.INFO, "Event found");
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Exception Finding event:",
@@ -181,31 +209,47 @@ public class EventEJB implements EventEJBLocal {
         }
         return event;
     }
-
-    /**
-     * If we attend to an event it would do an update
-     *
-     * @param idEvent we send the id of the event
-     * @param idUser we send the id of the user
+     /**
+     * Method to update an event
+     * @param event the event we want to update
      * @throws UpdateException if something is wrong it throws this exception
-     */
+     */   
+    //MODIFICAR UN EVENTO
     @Override
-    public void attendEvent(Integer idEvent, Integer idUser) throws UpdateException {
-
-        //es un update que se va a hacer para la parte de moviles
-        LOGGER.info("Updating event.");
-        try {
-            //coprobar que ese evento existe 
-            em.merge(idEvent);
-            em.merge(idUser);
-            em.flush();
-            LOGGER.info("Gastos of the user updated.");
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception updating gastos of the user.{0}",
+    public void updateEvent(Event event)throws UpdateException{
+        
+        LOGGER.info("EventManager: Updating event.");
+        try{
+            em.merge(event);
+//            em.flush();
+            LOGGER.info("EventManager: event updated.");
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "EventManager: Exception updating event.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }
-
+    
     }
+    
+    //MOVILES   
+    //esto es para moviles
+    /*
+    @Override
+    public void createEventUser(Event event, User user)throws CreateException{
+         
+        LOGGER.info(" Creating an event for a user.");
+        try {
+            em.persist(event);
+            em.persist(user);//creacion del evento
+            LOGGER.info("Event created.");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Exception creating the event and user.{0}",
+                    e.getMessage());
+            throw new CreateException(e.getMessage());
+        }
 
+    
+    }
+    
+*/
 }
