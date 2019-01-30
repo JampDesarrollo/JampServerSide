@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +20,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Class for the events data
@@ -28,7 +31,7 @@ import javax.persistence.Table;
 @Entity
 //LAS SELECTS
 @Table(name = "Event", schema = "jampdb")
-/*@NamedQueries({
+@NamedQueries({
     @NamedQuery(name = "findAllEvents",
             query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE t.idTxoko = :idTxoko ORDER BY u.name DESC"
     )
@@ -40,7 +43,8 @@ import javax.persistence.Table;
     @NamedQuery(name = "findEventByName",
             query = "SELECT e FROM Event e JOIN e.TxokoEvent t WHERE e.name = :name AND t.idTxoko=:idTxoko ORDER BY u.name DESC"
     )
-})*/
+})
+@XmlRootElement
 public class Event implements Serializable {
 
     private static long serialVersionUID = 1L;
@@ -62,7 +66,8 @@ public class Event implements Serializable {
     /**
      * The date of the event
      */
-    private Timestamp date;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date date;
 
     /**
      * The price of the event
@@ -82,13 +87,13 @@ public class Event implements Serializable {
     /**
      *
      */
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")
     private List<Txoko> txokos;
 
     /**
      *
      */
-    @ManyToMany(mappedBy = "events")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "events")
     private List<User> users;
 
     /**
@@ -136,14 +141,14 @@ public class Event implements Serializable {
     /**
      * @return the date
      */
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
     /**
      * @param date the date to set
      */
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
