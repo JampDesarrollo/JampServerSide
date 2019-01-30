@@ -36,12 +36,13 @@ public interface ExpenseManagerEJBLocal {
      * @throws ReadException If there is any Exception during processing.
      */
     public List<Expense> findMonthExpensesUsers(Integer idTxoko) throws ReadException;
-    
+
     /**
-     * 
-     * @param idTxoko
-     * @return
-     * @throws ReadException 
+     * Finds expenses of a user and returns the sum of expense's price.
+     *
+     * @param idUser IdUser of the user.
+     * @return Sum of expense's price.
+     * @throws ReadException If there is any Exception during processing.
      */
     public Float findMonthExpensesSingleUser(Integer idUser) throws ReadException;
 

@@ -81,7 +81,14 @@ public class ExpenseManagerEJB implements ExpenseManagerEJBLocal {
         }
         return expenses;
     }
-    
+
+    /**
+     * Finds expenses of a user and returns the sum of expense's price.
+     *
+     * @param idUser IdUser of the user.
+     * @return Sum of expense's price.
+     * @throws ReadException If there is any Exception during processing.
+     */
     @Override
     public Float findMonthExpensesSingleUser(Integer idUser) throws ReadException {
         Double expenses = 0.0;
