@@ -6,7 +6,7 @@
 package jampserverside.entity;
 
 /**
- *
+ * User Privilege enum.
  * @author ander
  */
 public enum UserPrivilege {

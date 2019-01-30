@@ -84,7 +84,7 @@ public class Txoko implements Serializable {
     /**
      * @param users the users to set
      */
-    public void setUsers(List<User> users) {
+    public void setUsers(List<User> user) {
         this.users = users;
     }
 
