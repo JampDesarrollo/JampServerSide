@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 2dam
+ * @author Ander, Julen, Paula
  */
 @Entity
 @Table(name = "Txoko", schema = "jampdb")
@@ -31,7 +31,7 @@ public class Txoko implements Serializable {
     /**
      * List of {@link User} belonging to the txoko.
      */
-    @OneToMany(mappedBy = "txoko")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "txoko")
     private List<User> users;
     private static long serialVersionUID = 1L;
 
@@ -64,15 +64,13 @@ public class Txoko implements Serializable {
     /**
      * Many to many relation with Product. Creates TxokoProduct
      */
-    @ManyToMany
-    @JoinTable(name = "TxokoProduct", schema="jampdb")
+    @ManyToMany(mappedBy = "txokos")
     private List<Product> products;
 
     /**
      * Many to many relation with event. Creates TxokoEvent
      */
-    @ManyToMany
-    @JoinTable(name = "TxokoEvent", schema="jampdb")
+    @ManyToMany(mappedBy = "txokos")
     private List<Event> events;
 
     /**
@@ -177,6 +175,7 @@ public class Txoko implements Serializable {
     /**
      * @return the product
      */
+    @XmlTransient
     public List<Product> getProduct() {
         return products;
     }
@@ -234,5 +233,4 @@ public class Txoko implements Serializable {
     }
 
 
-
-}
+}  
