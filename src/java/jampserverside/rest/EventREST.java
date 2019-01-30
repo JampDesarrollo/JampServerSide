@@ -35,8 +35,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 /**
- *
- * @author Usuario
+ * Restful server class. The class that comunicates with the client part.
+ * @author Paula
  */
 
 @Path("event")
@@ -54,21 +54,32 @@ public class EventREST {
 
     @EJB
     private EventEJBLocal ejb;
-
+    /**
+     * Method to delete an event
+     * @param idEvent the event we want to delete 
+     * @throws ReadException it throws if something is wrong
+     * @throws IdNotOkException it throws if the id is not ok
+     */
     @DELETE
     @Path("idEvent/{idEvent}")
   //  @Consumes({MediaType.APPLICATION_XML})
-    public void deleteEvent(@PathParam("idEvent") Integer idEvent)throws ReadException, IdNotOkException{
+
+    public void deleteEvent(@PathParam("idEvent") Integer idEvent)throws IdNotOkException{
          LOGGER.log(Level.INFO, "EventRESTful service: delete event");
         try {
             LOGGER.log(Level.INFO, "EventRESTful service: delete event");
             ejb.deleteEvent(ejb.findEventById(idEvent));
-        } catch (DeleteException e) {
+        } catch (DeleteException | ReadException e) {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception deleting user by id, {0}",
                     e.getMessage());
         }
     }
+
+    /**
+     * Method to create an event
+     * @param event the event we want to create
+     */
     @POST
     @Consumes({MediaType.APPLICATION_XML})
     public void createEvent(Event event) {
@@ -81,6 +92,10 @@ public class EventREST {
                     ex.getMessage());
         }
     }
+    /**
+     * Method to find ALL the events
+     * @return it returns a list of events
+     */
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public List<Event> findAll() {
@@ -98,8 +113,11 @@ public class EventREST {
         return events;
         
     }
-
-    
+    /**
+     * Method to find all events of my txoko
+     * @param idTxoko or txoko
+     * @return it returns a list of events
+     */   
     @GET
     @Path("{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
@@ -116,7 +134,12 @@ public class EventREST {
         }
         return events;
     }
-
+    /**
+     * Method to find an event of our txoko by id 
+     * @param idEvent the id of the event
+     * @param idTxoko the id of our txoko
+     * @return it return an event
+     */
     @GET
     @Path("idEvent/{idEvent}/idTxoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
@@ -138,6 +161,11 @@ public class EventREST {
         return event;
     }
 
+    /**
+     * Method to find an event 
+     * @param idEvent the id of the event
+     * @return it returns an event
+     */
     @GET
     @Path("idEvent/{idEvent}")
     @Produces({MediaType.APPLICATION_XML})
@@ -158,7 +186,13 @@ public class EventREST {
         }
         return event;
     }
-    
+
+    /**
+     * Method to find an event of our txoko by the name
+     * @param name the name of the event
+     * @param idTxoko the id of our txoko
+     * @return it returns an event
+     */
     @GET
     @Path("name/{name}/txoko/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
@@ -180,12 +214,17 @@ public class EventREST {
         return event;
     }   
     //MODIFICAR UN EVENTO
+
+    /**
+     * Method to update an event
+     * @param event the event we want to update
+     */
     @PUT
     @Consumes({"application/xml"})
     public void update(Event event) {
         try {
             LOGGER.log(Level.INFO,"EventRESTful service: update {0}.",event);
-            ejb.updateUser(event);
+            ejb.updateEvent(event);
         } catch (UpdateException ex) {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception updating event, {0}",

@@ -101,7 +101,10 @@ public class Event implements Serializable {
     /**
      *
      */
-    @ManyToMany(mappedBy = "events", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+
+     @ManyToMany(cascade={MERGE},fetch=FetchType.EAGER)
+     @JoinTable(name = "UserEvent", schema = "jampdb")
+
     private List<User> users;
 
     /**

@@ -17,7 +17,7 @@ import jampserverside.exception.UpdateException;
 import javax.ejb.Local;
 
 /**
- * The interface with all the empy methods.
+ * The interface with all the empty methods.
  *
  * @author paula
  */
@@ -73,10 +73,22 @@ public interface EventEJBLocal {
      * exception
      */
     public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException;
-    
+
+    /**
+     * Methot to find an event by id
+     * @param idEvent the id of the event
+     * @return ir returns an event
+     * @throws ReadException if something is wrong it throws this exception
+     * @throws IdNotOkException if the id doesn't exist it throws this exception
+     */
     public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException;
     
-    public void updateUser(Event event) throws UpdateException;
+    /**
+     * Method to update an event
+     * @param event the event we want to update
+     * @throws UpdateException if something is wrong it throws this exception
+     */
+    public void updateEvent(Event event) throws UpdateException;
     
     //esto es para moviles
    // public void createEventUser(Event event, User user)throws CreateException;

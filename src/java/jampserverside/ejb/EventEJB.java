@@ -158,6 +158,28 @@ public class EventEJB implements EventEJBLocal {
         }
         return event;
     }
+       /**
+     * Methot to find an event by id
+     * @param idEvent the id of the event
+     * @return ir returns an event
+     * @throws ReadException if something is wrong it throws this exception
+     * @throws IdNotOkException if the id doesn't exist it throws this exception
+     */
+    @Override
+    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException {
+       Event event=null;
+        try{
+            LOGGER.info("EventManager: Finding event by id.");
+            event=em.find(Event.class, idEvent);
+            if(event!=null)
+                LOGGER.log(Level.INFO,"EventManager: Event found {0}",event.getIdEvent());
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "EventManager: Exception Finding event by ID:",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return event;
+    }
 
     @Override
     public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException {
@@ -189,7 +211,7 @@ public class EventEJB implements EventEJBLocal {
     public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException {
         Event event = null;
         try {
-            LOGGER.info("UserManager: Finding event by name.");
+            LOGGER.info("EventManager: Finding event by name.");
             //buscame el evento por nombre y por id del txoko
             event = (Event) em.createNamedQuery("findEventByName")
                     .setParameter("name", name)
@@ -204,17 +226,22 @@ public class EventEJB implements EventEJBLocal {
         return event;
     }
 
+     /**
+     * Method to update an event
+     * @param event the event we want to update
+     * @throws UpdateException if something is wrong it throws this exception
+     */   
     //MODIFICAR UN EVENTO
     @Override
-    public void updateUser(Event event)throws UpdateException{
+    public void updateEvent(Event event)throws UpdateException{
         
-        LOGGER.info("UserManager: Updating user.");
+        LOGGER.info("EventManager: Updating event.");
         try{
             em.merge(event);
 //            em.flush();
-            LOGGER.info("UserManager: User updated.");
+            LOGGER.info("EventManager: event updated.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "UserManager: Exception updating user.{0}",
+            LOGGER.log(Level.SEVERE, "EventManager: Exception updating event.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }
