@@ -225,7 +225,7 @@ public class Event implements Serializable {
     }
 
     /**
-     * @param users the users to set
+     * @param user the users to set
      */
     public void setUsers(List<User> users) {
         this.users = users;

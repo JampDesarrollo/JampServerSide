@@ -181,22 +181,6 @@ public class EventEJB implements EventEJBLocal {
         return event;
     }
 
-    @Override
-    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException {
-       Event event=null;
-        try{
-            LOGGER.info("EventManager: Finding event by id.");
-            event=em.find(Event.class, idEvent);
-            if(event!=null)
-                LOGGER.log(Level.INFO,"EventManager: Event found {0}",event.getIdEvent());
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "UserManager: Exception Finding event by ID:",
-                    e.getMessage());
-            throw new ReadException(e.getMessage());
-        }
-        return event;
-    }
-
     /**
      * Method to select a specific event
      *
