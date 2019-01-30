@@ -6,13 +6,14 @@
 package jampserverside.entity;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,54 +25,45 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author 2dam
+ * User entity.
+ * @author ander
  */
 @Entity
 @Table(name = "user", schema = "jampdb")
-/*@NamedQueries({
+@NamedQueries({
     @NamedQuery(name = "findUserByLogin",
-            query = "SELECT * FROM users WHERE users.login= :user.getLogin()"
+            query = "SELECT u FROM User u WHERE u.login = :login"
     )
     ,
-    @NamedQuery(name = "deleteUser",
-            query = "DELETE FROM users WHERE users.login= :user.getLogin()"
-    )
-    ,
-    @NamedQuery(name = "updateUser",
-            query = "UPDATE users SET email=:user.getEmail(),"
-            + "fullname= :user.getFullname(),"
-            + "password= :user.getPassword"
-            + "lastAccess= :user.getLastAccess"
-            + "lastPasswordChangeuser.getLastPasswordChange"
+    @NamedQuery(name = "findUserByLoginandPassw",
+            query = "SELECT u FROM User u WHERE u.login = :login AND u.password = :password"
     )
     ,
     @NamedQuery(name = "findAllTxokoUsers",
-            query = "SELECT * FROM users WHERE users.id_txoko= user.getLogin()"
+            query = "SELECT u FROM User u WHERE u.txoko.idTxoko = :idTxoko"
     )
     ,
-    @NamedQuery(name = "createUser",
-            query = "INSERT INTO users ('login','email','fullname','status','privileges','password')"
-            + "values(':user.getLogin()',':user.getEmail()',':user.Fullname()',':user.getStatus()',':user.getPrivileges()',':user.getPassword()')"
-    )
-})*/
+    @NamedQuery(name = "findAllUsers",
+            query = "SELECT u FROM User u"
+    ) 
+})
 @XmlRootElement
 public class User implements Serializable {
 
     /**
      *
      */
-    @ManyToMany
-    @JoinTable(name = "UserEvent", schema="jampdb")
+    @ManyToMany(mappedBy="users")
     private List<Event> events;
     /**
      *
      */
-    @OneToMany(mappedBy = "user")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Expense> expenses;
     /**
      *
@@ -82,7 +74,7 @@ public class User implements Serializable {
     /**
      *
      */
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idTxoko")
     private Txoko txoko;
     /**
@@ -115,11 +107,13 @@ public class User implements Serializable {
     /**
      *
      */
-    private Timestamp lastAccess;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastAccess;
     /**
      *
      */
-    private Timestamp lastPasswordChange;
+    @Temporal(javax.persistence.TemporalType.TIMESTAMP)
+    private Date lastPasswordChange;
 
     /**
      * @return the events
@@ -266,28 +260,28 @@ public class User implements Serializable {
     /**
      * @return the lastAccess
      */
-    public Timestamp getLastAccess() {
+    public Date getLastAccess() {
         return lastAccess;
     }
 
     /**
      * @param lastAccess the lastAccess to set
      */
-    public void setLastAccess(Timestamp lastAccess) {
+    public void setLastAccess(Date lastAccess) {
         this.lastAccess = lastAccess;
     }
 
     /**
      * @return the lastPasswordChange
      */
-    public Timestamp getLastPasswordChange() {
+    public Date getLastPasswordChange() {
         return lastPasswordChange;
     }
 
     /**
      * @param lastPasswordChange the lastPasswordChange to set
      */
-    public void setLastPasswordChange(Timestamp lastPasswordChange) {
+    public void setLastPasswordChange(Date lastPasswordChange) {
         this.lastPasswordChange = lastPasswordChange;
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.POST;
@@ -45,7 +46,7 @@ public class ExpenseREST {
      * @return
      */
     @GET
-    @Path("idTxoko")
+    @Path("{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
     public List<Expense> findAllExpensesUsers(@PathParam("idTxoko") Integer idTxoko) {
         List<Expense> expenses = null;
@@ -66,7 +67,7 @@ public class ExpenseREST {
      * @return
      */
     @GET
-    @Path("idtxoko/idTxoko")
+    @Path("month/{idTxoko}")
     @Produces({MediaType.APPLICATION_XML})
     public List<Expense> findMonthExpensesUsers(@PathParam("idTxoko") Integer idTxoko) {
         List<Expense> expenses = null;
@@ -81,13 +82,30 @@ public class ExpenseREST {
         }
         return expenses;
     }
+    
+    @GET
+    @Path("monthUser/{idUser}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Float findMonthExpensesSingleUser(@PathParam("idUser") Integer idUser) {
+        Float expenses = 0.0f;
+        try {
+            LOGGER.info("ExpenseRESTful: Reading all expenses "
+                    + "this month for user.");
+            expenses = ejb.findMonthExpensesSingleUser(idUser);
+        } catch (ReadException e) {
+            LOGGER.log(Level.SEVERE, "ExpenseRESTful: Exception reading all "
+                    + "expenses of user in month, {0}.", e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+        return expenses;
+    }
 
     /**
      *
      * @param expense
      */
     @POST
-    @Produces({MediaType.APPLICATION_XML})
+    @Consumes({MediaType.APPLICATION_XML})
     public void createExpense(Expense expense) {
         try {
             LOGGER.log(Level.INFO, "ExpenseRESTful: create {0}.", expense);

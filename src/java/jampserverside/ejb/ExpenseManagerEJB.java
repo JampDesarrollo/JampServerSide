@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jampserverside.exception.CreateException;
 import jampserverside.exception.ReadException;
+import java.sql.Timestamp;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -66,17 +67,44 @@ public class ExpenseManagerEJB implements ExpenseManagerEJBLocal {
     @Override
     public List<Expense> findMonthExpensesUsers(Integer idTxoko) throws ReadException {
         List<Expense> expenses = null;
+        Timestamp current = new Timestamp(System.currentTimeMillis());
         try {
             LOGGER.info("ExpenseManager: Reading all expenses "
                     + "this month in this txoko.");
-            expenses = em.createNamedQuery("findMonthExpensesUsers").
-                    setParameter("idTxoko", idTxoko).getResultList();
+            expenses = em.createNamedQuery("findMonthExpensesUsers")
+                    .setParameter("idTxoko", idTxoko)
+                    .setParameter("current", current).getResultList();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "ExpenseManager: Exception reading all "
                     + "expenses users month: ", e.getMessage());
             throw new ReadException(e.getMessage());
         }
         return expenses;
+    }
+
+    /**
+     * Finds expenses of a user and returns the sum of expense's price.
+     *
+     * @param idUser IdUser of the user.
+     * @return Sum of expense's price.
+     * @throws ReadException If there is any Exception during processing.
+     */
+    @Override
+    public Float findMonthExpensesSingleUser(Integer idUser) throws ReadException {
+        Double expenses = 0.0;
+        Timestamp current = new Timestamp(System.currentTimeMillis());
+        try {
+            LOGGER.info("ExpenseManager: Counting all expenses "
+                    + "this month for user.");
+            expenses = (Double) em.createNamedQuery("findMonthExpensesSingleUser")
+                    .setParameter("idUser", idUser)
+                    .setParameter("current", current).getSingleResult();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "ExpenseManager: Exception reading all "
+                    + "expenses users month: ", e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return expenses.floatValue();
     }
 
     /**
