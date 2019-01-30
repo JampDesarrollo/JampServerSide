@@ -1,4 +1,4 @@
- /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,11 +7,13 @@ package jampserverside.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -25,27 +27,31 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @Table(name="product",schema="jampdb")
 @NamedQueries({
-    @NamedQuery(name="findProductById",
-            query="SELECT p FROM Product p JOIN Txoko t WHERE p.id = :id AND t.id = :txokoId ORDER BY u.id DESC"
+    @NamedQuery(name="findProductsByIdByTxoko",
+            query="SELECT p FROM Product p JOIN p.txokos t WHERE p.idProduct = :idProduct AND t.idTxoko = :idTxoko"
+    ),
+    @NamedQuery(name="findAllProducts",
+            query="SELECT p FROM Product p"
     ),
     @NamedQuery(name="findProductByName",
-            query="SELECT u FROM User u WHERE u.profile = :profile"
+            query="SELECT p FROM Product p join p.txokos t WHERE p.name = :name AND t.idTxoko = :idTxoko"
     ),
-    @NamedQuery(name="findAllProduct",
-            query="SELECT u FROM User u WHERE u.profile = :profile"
+    @NamedQuery(name="findAllProductByTxoko",
+            query="SELECT p FROM Product p join p.txokos t WHERE t.idTxoko = :idTxoko"
     )
-})
+    })
+
 
 @XmlRootElement
 public class Product implements Serializable {
 
     private static long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
   
     /**
      * 
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idProduct;
     /**
      * 
@@ -64,14 +70,15 @@ public class Product implements Serializable {
      */
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy="products")
-    private List<Txoko>txokos;
+    @ManyToMany(cascade={MERGE}, fetch=FetchType.EAGER)
+    @JoinTable(name = "TxokoProduct", schema="jampdb")
+    private List<Txoko> txokos;
     
-    public Integer getId() {
+    public Integer getIdProduct() {
         return idProduct;
     }
 
-    public void setId(Integer id) {
+    public void setIdProduct(Integer idProduct) {
         this.idProduct = idProduct;
     }
 
@@ -147,6 +154,7 @@ public class Product implements Serializable {
     /**
      * @return the txokos
      */
+    //@XmlTransient
     public List<Txoko> getTxokos() {
         return txokos;
     }
@@ -161,10 +169,15 @@ public class Product implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (getId() != null ? getId().hashCode() : 0);
+        hash += (getIdProduct() != null ? getIdProduct().hashCode() : 0);
         return hash;
     }
 
+    /**
+     * 
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -172,15 +185,19 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.idProduct.equals(other.idProduct))) {
+        if ((this.getIdProduct() == null && other.getIdProduct() != null) || (this.getIdProduct() != null && !this.idProduct.equals(other.idProduct))) {
             return false;
         }
         return true;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
-        return "jampserverside.entity.Product[ id=" + getId() + " ]";
+        return "jampserverside.entity.Product[ id=" + getIdProduct() + " ]";
     }
 
     
