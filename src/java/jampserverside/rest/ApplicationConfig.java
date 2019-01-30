@@ -33,6 +33,7 @@ public class ApplicationConfig extends Application {
         resources.add(jampserverside.rest.ExpenseREST.class);
         resources.add(jampserverside.rest.ProductREST.class);
         resources.add(jampserverside.rest.UserREST.class);
+
     }
     
 }
