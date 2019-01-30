@@ -43,17 +43,17 @@ public class ProductEJB implements ProductEJBLocal{
      * @throws ReadException 
      */
     @Override
-    public Product find(String id, int idTxoko) throws ReadException {
+    public Product find(String id, Integer idTxoko) throws ReadException {
         Product product=null;
         try{
-            LOGGER.info("ProductManager: Finding product by id.");
+            LOGGER.info("ProductEJB: Finding product by id.");
             product=(Product) em.createNamedQuery("findProductById")
                     .setParameter("id", id)
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-            LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.getId());
+            LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.getIdProduct());
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idProduct and idTxoko:",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding product by idProduct and idTxoko:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
@@ -69,17 +69,17 @@ public class ProductEJB implements ProductEJBLocal{
      * @throws ReadException 
      */
     @Override
-    public List<Product> findProductByName(String name, int idTxoko) throws ReadException {
+    public List<Product> findProductByName(String name, Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("Product: Finding product by name.");
+            LOGGER.info("ProductEJB: Finding product by name.");
             product=(List<Product>)em.createNamedQuery("findProductByName")
                     .setParameter("name", name)
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-           // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
+            LOGGER.log(Level.INFO,"ProductEJB: Product found {0}");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idToko and name:",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding product by idToko and name:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
@@ -93,20 +93,76 @@ public class ProductEJB implements ProductEJBLocal{
      * @throws ReadException 
      */
     @Override
-    public List<Product> findAllProducts(int idTxoko) throws ReadException {
+    public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException {
         List<Product> product=null;
         try{
-            LOGGER.info("Product: Finding all products.");
-            product=(List<Product>)em.createNamedQuery("findProductByName")
+            LOGGER.info("ProductEJB: Finding all products By Txoko.");
+            product=(List<Product>)em.createNamedQuery("findAllProductByTxoko")
                     .setParameter("idTxoko", idTxoko)
                     .getResultList();
-           // LOGGER.log(Level.INFO,"ProductManager: User found {0}",product.get(idTxoko);
+            LOGGER.log(Level.INFO,"ProductEJB: finding products by txoko {0}");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "UserManager: Exception Finding user by login:",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding user by login:",
                     e.getMessage());
             throw new ReadException(e.getMessage());
         }
         return product;    }
+    
+        @Override
+        public List<Product> findAllProducts() throws ReadException {
+        List<Product> product=null;
+        try{
+            LOGGER.info("ProductEJB: Finding all products.");
+            product=(List<Product>)em.createNamedQuery("findAllProducts").getResultList();
+            //LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding all txokos b:",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return product;    
+        }
+        
+        @Override
+        public Product findProductsById(Integer idProduct) throws ReadException {
+        Product product=null;
+        try{
+            LOGGER.info("ProductEJB: Finding products by Id.");
+            
+            product = em.find(Product.class, idProduct);
+            //LOGGER.log(Level.INFO,"ProductEJB: User found {0}",product.get(idTxoko));
+        }catch(IllegalArgumentException il){
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception Finding user by login:",
+                    il.getMessage());
+            throw new ReadException(il.getMessage());
+        }
+        return product;    
+        }
+        
+    /**
+     *
+     * @param idProduct
+     * @param idTxoko
+     * @return
+     * @throws ReadException
+     */
+    @Override
+    public Product findProductByIdByTxoko(Integer idProduct, Integer idTxoko) throws ReadException {
+        Product product = null;
+        try {
+            LOGGER.info("ProductManager: Finding product by id.");
+            product = (Product) em.createNamedQuery("findProductsByIdByTxoko")
+                    .setParameter("idProduct", idProduct)
+                    .setParameter("idTxoko", idTxoko)
+                    .getSingleResult();
+            LOGGER.log(Level.INFO, "ProductManager: User found {0}");
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "ProductManager: Exception Finding product by idProduct and idTxoko:",
+                    e.getMessage());
+            throw new ReadException(e.getMessage());
+        }
+        return product;
+    }
 
     /**
      * 
@@ -115,12 +171,13 @@ public class ProductEJB implements ProductEJBLocal{
      */
     @Override
     public void createProduct(Product product) throws CreateException {
-        LOGGER.info("ProductManager: Creating product.");
+        LOGGER.info("ProductEJB: Creating product.");
+        product.setIdProduct(null);
         try{
             em.persist(product);
-            LOGGER.info("ProductManager: Product created.");
+            LOGGER.info("ProductEJB: Product created.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception creating product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception creating product.{0}",
                     e.getMessage());
             throw new CreateException(e.getMessage());
         }    
@@ -133,13 +190,15 @@ public class ProductEJB implements ProductEJBLocal{
      */
     @Override
     public void updateProduct(Product product) throws UpdateException {
-        LOGGER.info("ProductManager: Updating product.");
+        LOGGER.info("ProductEJB: Updating product.");
         try{
+            
             em.merge(product);
             em.flush();
-            LOGGER.info("ProductManager: Product updated.");
+            
+            LOGGER.info("ProductEJB: Product updated.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception updating product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception updating product.{0}",
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }  
@@ -152,13 +211,14 @@ public class ProductEJB implements ProductEJBLocal{
      */
     @Override
     public void deleteProduct(Product product) throws DeleteException {
-        LOGGER.info("ProductManager: Deleting product.");
+        LOGGER.info("ProductEJB: Deleting product.");
         try{
-            product = em.merge(product);
+            if(!em.contains(product))
+                product = em.merge(product);
             em.remove(product);
-            LOGGER.info("ProductManager: Product deleted.");
+            LOGGER.info("ProductEJB: Product deleted.");
         }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductManager: Exception deleting product.{0}",
+            LOGGER.log(Level.SEVERE, "ProductEJB: Exception deleting product.{0}",
                     e.getMessage());
             throw new DeleteException(e.getMessage());
         }  

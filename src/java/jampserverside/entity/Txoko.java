@@ -232,5 +232,4 @@ public class Txoko implements Serializable {
         return "Txoko{" + "idTxoko=" + idTxoko + '}';
     }
 
-
 }  
