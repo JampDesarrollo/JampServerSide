@@ -172,6 +172,7 @@ public class ProductEJB implements ProductEJBLocal{
     @Override
     public void createProduct(Product product) throws CreateException {
         LOGGER.info("ProductEJB: Creating product.");
+        product.setIdProduct(null);
         try{
             em.persist(product);
             LOGGER.info("ProductEJB: Product created.");

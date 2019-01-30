@@ -33,7 +33,7 @@ import javax.ws.rs.core.MediaType;
 @Path("product")
 public class ProductREST{
     
-    /**
+   /**
     * Logger for class methods.
     */
     private static final Logger LOGGER =
@@ -45,25 +45,6 @@ public class ProductREST{
      */
     @EJB
     private ProductEJBLocal ejb;
-
-    /**
-     * 
-     * @param product
-     * @throws CreateException 
-     */
-    @POST
-    @Consumes({MediaType.APPLICATION_XML})
-    public void createProduct(Product product) throws CreateException {
-        LOGGER.info("ProductRest: Creating product.");
-        try{
-            ejb.createProduct(product);
-            LOGGER.info("ProductRest: Product created.");
-        }catch(Exception e){
-            LOGGER.log(Level.SEVERE, "ProductRest: Exception creating product.{0}",
-                    e.getMessage());
-            throw new CreateException(e.getMessage());
-        }    
-    }
 
     /**
      * 
@@ -82,6 +63,24 @@ public class ProductREST{
                     e.getMessage());
             throw new UpdateException(e.getMessage());
         }  
+    }
+    /**
+     * 
+     * @param product
+     * @throws CreateException 
+     */
+    @POST
+    @Consumes({MediaType.APPLICATION_XML})
+    public void createProduct(Product product) throws CreateException {
+        LOGGER.info("ProductRest: Creating product.");
+        try{
+            ejb.createProduct(product);
+            LOGGER.info("ProductRest: Product created.");
+        }catch(Exception e){
+            LOGGER.log(Level.SEVERE, "ProductRest: Exception creating product.{0}",
+                    e.getMessage());
+            throw new CreateException(e.getMessage());
+        }    
     }
 
 

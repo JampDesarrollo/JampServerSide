@@ -173,6 +173,11 @@ public class Product implements Serializable {
         return hash;
     }
 
+    /**
+     * 
+     * @param object
+     * @return 
+     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -186,6 +191,10 @@ public class Product implements Serializable {
         return true;
     }
 
+    /**
+     * 
+     * @return 
+     */
     @Override
     public String toString() {
         return "jampserverside.entity.Product[ id=" + getIdProduct() + " ]";
