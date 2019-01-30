@@ -9,10 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.CascadeType.MERGE;
-import static javax.persistence.CascadeType.PERSIST;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,9 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Class for the events data.
@@ -102,9 +97,8 @@ public class Event implements Serializable {
      *
      */
 
-     @ManyToMany(cascade={MERGE},fetch=FetchType.EAGER)
-     @JoinTable(name = "UserEvent", schema = "jampdb")
-
+    @ManyToMany(cascade={MERGE},fetch=FetchType.EAGER)
+    @JoinTable(name = "UserEvent", schema = "jampdb")
     private List<User> users;
 
     /**
@@ -266,7 +260,5 @@ public class Event implements Serializable {
     public String toString() {
         return "Event{" + "idEvent=" + idEvent + '}';
     }
-
-
 
 }
