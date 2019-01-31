@@ -183,18 +183,18 @@ public class UserManagerEJB implements UserManagerEJBLocal {
             if (MessageDigest.isEqual(hashedPasww, DatatypeConverter.parseHexBinary(user.getPassword()))) {
                 LOGGER.log(Level.INFO, "UserManager: User found {0}", user.getLogin());
                 if (user.getPrivilege() == UserPrivilege.USER) {
-                    throw new UserPrivilegeException();
+                    throw new UserPrivilegeException("User privilege not ok");
                 } else {
                     user.setLastAccess(new Timestamp(System.currentTimeMillis()));
                     updateUser(user);
                 }
             } else {
-                throw new PasswordNotOkException();
+                throw new PasswordNotOkException("Password not ok for " + login);
             }
         } catch (NoResultException e) {
             LOGGER.log(Level.SEVERE, "UserManager: No result Finding user by login:",
                     e.getMessage());
-            throw new UserNotExistException();
+            throw new UserNotExistException("User not found" + login);
         } catch (PersistenceException e) {
             LOGGER.log(Level.SEVERE, "UserManager: Persistance expception"
                     + "finding user by login:",
@@ -333,7 +333,9 @@ public class UserManagerEJB implements UserManagerEJBLocal {
     public void deleteUser(User user) throws DeleteException {
         LOGGER.info("UserManagerEJB: Deleting user.");
         try {
-            user = em.merge(user);
+            if (!em.contains(user)) {
+                user = em.merge(user);
+            }
             em.remove(user);
             LOGGER.info("UserManagerEJB: User deleted.");
         } catch (Exception e) {

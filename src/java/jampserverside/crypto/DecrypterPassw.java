@@ -40,6 +40,11 @@ public class DecrypterPassw {
      */
     private static final String CIPHERPRIV = ResourceBundle.getBundle("jampserverside.crypto.config")
             .getString("CIPHERPRIV");
+    /**
+     * Private key.
+     */
+    private static final String PRIVATE = ResourceBundle.getBundle("jampserverside.crypto.config")
+            .getString("PRIVATE");
 
     /**
      * Method that decrypts the password with the private key generated with the
@@ -51,7 +56,7 @@ public class DecrypterPassw {
     public static byte[] decryptPassw(byte[] password) {
         byte[] decodedMessage = null;
         try {
-            FileInputStream fis = new FileInputStream("private.key");
+            FileInputStream fis = new FileInputStream(PRIVATE);
             byte[] byteA = new byte[fis.available()];
             fis.read(byteA);
             fis.close();
