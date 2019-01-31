@@ -21,7 +21,8 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
+ * Class for the products data
+ * 
  * @author Julen
  */
 @Entity
@@ -48,36 +49,51 @@ public class Product implements Serializable {
     private static long serialVersionUID = 1L;
   
     /**
-     * 
+     * id for the product. is the primary key of the table
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer idProduct;
+    
     /**
-     * 
+     * the stock of the product
      */
     private Integer stock;
+   
     /**
-     * 
+     * the name of the product
      */
     private String name;
+   
     /**
-     * 
+     * The price of the product
      */
     private Float price;
+    
     /**
-     * 
+     * the description of the product
      */
     private String description;
 
+    /**
+     * The list of txoko have pthe prodcut
+     */
     @ManyToMany(cascade={MERGE}, fetch=FetchType.EAGER)
     @JoinTable(name = "TxokoProduct", schema="jampdb")
     private List<Txoko> txokos;
     
+    /**
+     * Getter of idProdcut
+     * @return the id product
+     */
     public Integer getIdProduct() {
         return idProduct;
     }
 
+    /**
+     * Setter of idProduct
+     * @param idProduct 
+     */
     public void setIdProduct(Integer idProduct) {
         this.idProduct = idProduct;
     }
@@ -97,6 +113,8 @@ public class Product implements Serializable {
     }
 
     /**
+     * Getter of Sock
+     * 
      * @return the stock
      */
     public Integer getStock() {
@@ -104,6 +122,8 @@ public class Product implements Serializable {
     }
 
     /**
+     * Setter of Stock
+     * 
      * @param stock the stock to set
      */
     public void setStock(Integer stock) {
@@ -111,13 +131,17 @@ public class Product implements Serializable {
     }
 
     /**
-     * @return the name
+     * Getter of name of product
+     * 
+     * @return the name of product
      */
     public String getName() {
         return name;
     }
 
     /**
+     * Setter of name
+     * 
      * @param name the name to set
      */
     public void setName(String name) {
@@ -125,13 +149,17 @@ public class Product implements Serializable {
     }
 
     /**
-     * @return the price
+     * Getter of Price
+     * 
+     * @return the price of product
      */
     public Float getPrice() {
         return price;
     }
 
     /**
+     * Setter of price
+     * 
      * @param price the price to set
      */
     public void setPrice(Float price) {
@@ -139,6 +167,8 @@ public class Product implements Serializable {
     }
 
     /**
+     * Getter of Description
+     * 
      * @return the description
      */
     public String getDescription() {
@@ -146,12 +176,16 @@ public class Product implements Serializable {
     }
 
     /**
+     * Seter of Description
+     * 
      * @param description the description to set
      */
     public void setDescription(String description) {
         this.description = description;
     }
     /**
+     * Getter of list of txokos
+     * 
      * @return the txokos
      */
     //@XmlTransient
@@ -160,12 +194,18 @@ public class Product implements Serializable {
     }
 
     /**
+     * Seter of list of products
+     * 
      * @param txokos the txokos to set
      */
     public void setTxokos(List<Txoko> txokos) {
         this.txokos = txokos;
     }
     
+    /**
+     * 
+     * @return 
+     */
     @Override
     public int hashCode() {
         int hash = 0;

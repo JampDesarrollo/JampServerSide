@@ -18,11 +18,13 @@ import javax.persistence.PersistenceContext;
 import javax.ejb.Stateless;
 
 /**
- *
+ * This class that implements the interface
+ * 
  * @author Julen
  */
 @Stateless
 public class ProductEJB implements ProductEJBLocal{
+    
     /**
      * Logger for the class.
      */
@@ -36,10 +38,11 @@ public class ProductEJB implements ProductEJBLocal{
     private EntityManager em;
 
     /**
+     * This method find product by id and idTxoko
      * 
-     * @param id
-     * @param idTxoko
-     * @return
+     * @param id the id of the prodct
+     * @param idTxoko the id of the txoko
+     * @return ProductBean that we found
      * @throws ReadException 
      */
     @Override
@@ -62,10 +65,11 @@ public class ProductEJB implements ProductEJBLocal{
     
 
     /**
+     * This method find product by name
      * 
-     * @param name
-     * @param idTxoko
-     * @return
+     * @param name the name of the product
+     * @param idTxoko the id of the txoko
+     * @return List of productBean that found
      * @throws ReadException 
      */
     @Override
@@ -87,9 +91,10 @@ public class ProductEJB implements ProductEJBLocal{
     }
 
     /**
+     * This method find all products by txoko
      * 
-     * @param idTxoko
-     * @return
+     * @param idTxoko the id of the txoko
+     * @return listof productBean of one txoko
      * @throws ReadException 
      */
     @Override
@@ -108,6 +113,12 @@ public class ProductEJB implements ProductEJBLocal{
         }
         return product;    }
     
+        /**
+        * This method is for find all products
+        * 
+        * @return
+        * @throws ReadException 
+        */
         @Override
         public List<Product> findAllProducts() throws ReadException {
         List<Product> product=null;
@@ -123,6 +134,13 @@ public class ProductEJB implements ProductEJBLocal{
         return product;    
         }
         
+        /**
+         * This method found products by id
+         * 
+         * @param idProduct the id of the product
+         * @return product foud by id
+         * @throws ReadException 
+         */
         @Override
         public Product findProductsById(Integer idProduct) throws ReadException {
         Product product=null;
@@ -140,10 +158,11 @@ public class ProductEJB implements ProductEJBLocal{
         }
         
     /**
-     *
-     * @param idProduct
-     * @param idTxoko
-     * @return
+     * This method found product by id by txoko
+     * 
+     * @param idProduct the id of the product
+     * @param idTxoko the id of the txoko
+     * @return a product of one txoko and id
      * @throws ReadException
      */
     @Override
@@ -165,8 +184,9 @@ public class ProductEJB implements ProductEJBLocal{
     }
 
     /**
+     * This method create a product
      * 
-     * @param product
+     * @param product the product we wat to create
      * @throws CreateException 
      */
     @Override
@@ -184,8 +204,9 @@ public class ProductEJB implements ProductEJBLocal{
     }
 
     /**
+     * This method update a product
      * 
-     * @param product
+     * @param product the product we want to update
      * @throws UpdateException 
      */
     @Override
@@ -205,6 +226,7 @@ public class ProductEJB implements ProductEJBLocal{
     }
 
     /**
+     * This method is for delete a product
      * 
      * @param product
      * @throws DeleteException 
