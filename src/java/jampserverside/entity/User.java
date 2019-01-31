@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import static javax.persistence.CascadeType.MERGE;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -57,7 +58,7 @@ public class User implements Serializable {
     /**
      *
      */
-    @ManyToMany(mappedBy="users")
+    @ManyToMany(mappedBy="users", cascade={MERGE})
     private List<Event> events;
     /**
      *

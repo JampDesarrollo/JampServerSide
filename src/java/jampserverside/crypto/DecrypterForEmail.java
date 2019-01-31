@@ -60,6 +60,16 @@ public class DecrypterForEmail {
      */
     private static final String CIPHER = ResourceBundle.getBundle("jampserverside.crypto.config")
             .getString("CIPHER");
+    /**
+     * Email.
+     */
+    private static final String EMAIL = ResourceBundle.getBundle("jampserverside.crypto.config")
+            .getString("EMAIL");
+    /**
+     * Password.
+     */
+    private static final String PASSW = ResourceBundle.getBundle("jampserverside.crypto.config")
+            .getString("PASSW");
 
     /**
      * This method decrypts the email address of the email sender with a private
@@ -81,7 +91,7 @@ public class DecrypterForEmail {
 
             // The next step is to read the encoded message and IV. The IV comes first and
             // it is 8 bytes long.
-            ois = new ObjectInputStream(new FileInputStream("email.dat"));
+            ois = new ObjectInputStream(new FileInputStream(EMAIL));
 
             byte[] ivRead = (byte[]) ois.readObject();
             byte[] encodedMessage = (byte[]) ois.readObject();
@@ -142,7 +152,7 @@ public class DecrypterForEmail {
 
             // The next step is to read the encoded message and IV. The IV comes first and
             // it is 8 bytes long.
-            ois = new ObjectInputStream(new FileInputStream("passw.dat"));
+            ois = new ObjectInputStream(new FileInputStream(PASSW));
 
             byte[] ivRead = (byte[]) ois.readObject();
             byte[] encodedMessage = (byte[]) ois.readObject();
