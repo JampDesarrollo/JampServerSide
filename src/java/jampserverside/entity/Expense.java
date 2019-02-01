@@ -102,7 +102,7 @@ public class Expense implements Serializable {
     }
 
     /**
-     * @param idUser the idUser to set
+     * @param user the idUser to set
      */
     public void setUser(User user) {
         this.user = user;
