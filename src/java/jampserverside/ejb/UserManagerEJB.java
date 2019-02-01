@@ -283,7 +283,6 @@ public class UserManagerEJB implements UserManagerEJBLocal {
     /**
      * Finds all users of a specific txoko.
      *
-     * @param idTxoko Id of the txoko to find the users from.
      * @return List of users.
      * @throws ReadException If there is any Exception during processing.
      */

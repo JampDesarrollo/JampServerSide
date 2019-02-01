@@ -167,7 +167,7 @@ public class User implements Serializable {
     }
 
     /**
-     * @param idTxoko the idTxoko to set
+     * @param txoko the idTxoko to set
      */
     public void setTxoko(Txoko txoko) {
         this.txoko = txoko;

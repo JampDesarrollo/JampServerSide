@@ -41,9 +41,9 @@ public class ExpenseREST {
     private ExpenseManagerEJBLocal ejb;
 
     /**
-     *
-     * @param idTxoko
-     * @return
+     * Find all expenses of all users for a specific txoko.
+     * @param idTxoko Id of the txoko.
+     * @return List of users.
      */
     @GET
     @Path("{idTxoko}")
@@ -62,9 +62,9 @@ public class ExpenseREST {
     }
 
     /**
-     *
-     * @param idTxoko
-     * @return
+     * Find all expenses of all users for a specific txoko of the current month.
+     * @param idTxoko Id of the txoko.
+     * @return List of users.
      */
     @GET
     @Path("month/{idTxoko}")
@@ -82,7 +82,11 @@ public class ExpenseREST {
         }
         return expenses;
     }
-    
+    /**
+     * Find all expenses of a user of the current month and sum it.
+     * @param idUser Id of the user.
+     * @return Amount to pay.
+     */
     @GET
     @Path("monthUser/{idUser}")
     @Produces({MediaType.TEXT_PLAIN})
@@ -101,8 +105,8 @@ public class ExpenseREST {
     }
 
     /**
-     *
-     * @param expense
+     * Create an expense.
+     * @param expense Expense to create.
      */
     @POST
     @Consumes({MediaType.APPLICATION_XML})

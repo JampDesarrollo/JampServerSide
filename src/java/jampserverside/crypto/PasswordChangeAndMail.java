@@ -32,8 +32,8 @@ public class PasswordChangeAndMail {
     /**
      * This method generates a secure random password adn sends an email.
      *
-     * @param receivedMail
-     * @return
+     * @param receivedMail Received email to send the mail to.
+     * @return byte array.
      */
     public static byte[] passwAndSendEmail(String receivedMail) {
         byte[] hashedPassw = null;
