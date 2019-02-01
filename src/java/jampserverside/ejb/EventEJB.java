@@ -87,7 +87,11 @@ public class EventEJB implements EventEJBLocal {
         }
 
     }
-
+    /**
+     * List of all events
+     * @return all events
+     * @throws ReadException if something is wrong it throws this exception 
+     */
     @Override
     public List<Event> findAll() throws ReadException {
         List<Event> events = null;
@@ -138,10 +142,9 @@ public class EventEJB implements EventEJBLocal {
      * @param idTxoko we send the id of the txoko
      * @return it return the data of that specific event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
     @Override
-    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException {
+    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException{
         Event event = null;
         try {
             LOGGER.info("Finding event by id and by txoko.");
@@ -163,10 +166,9 @@ public class EventEJB implements EventEJBLocal {
      * @param idEvent the id of the event
      * @return ir returns an event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
     @Override
-    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException {
+    public Event findEventById(Integer idEvent) throws ReadException{
        Event event=null;
         try{
             LOGGER.info("EventManager: Finding event by id.");
@@ -188,11 +190,10 @@ public class EventEJB implements EventEJBLocal {
      * @param idTxoko we send the id of the txoko
      * @return it return the data of that specific event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws NameNotOkException if the name doesn't exist it throws this
      * exception
      */
     @Override
-    public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException {
+    public Event findEventByName(String name, Integer idTxoko) throws ReadException{
         Event event = null;
         try {
             LOGGER.info("EventManager: Finding event by name.");
@@ -231,26 +232,4 @@ public class EventEJB implements EventEJBLocal {
         }
     
     }
-    
-    //MOVILES   
-    //esto es para moviles
-    /*
-    @Override
-    public void createEventUser(Event event, User user)throws CreateException{
-         
-        LOGGER.info(" Creating an event for a user.");
-        try {
-            em.persist(event);
-            em.persist(user);//creacion del evento
-            LOGGER.info("Event created.");
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Exception creating the event and user.{0}",
-                    e.getMessage());
-            throw new CreateException(e.getMessage());
-        }
-
-    
-    }
-    
-*/
 }

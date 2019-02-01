@@ -39,7 +39,13 @@ public interface EventEJBLocal {
      * @throws CreateException if something is wrong it throws this exception
      */
     public void createEvent(Event event) throws CreateException;
-
+    /**
+     * List of all events
+     * @return all events
+     * @throws ReadException if something is wrong it throws this exception 
+     */
+    
+    public List<Event> findAll() throws ReadException;
     /**
      * Method to select all the events of our txoko
      *
@@ -47,8 +53,6 @@ public interface EventEJBLocal {
      * @return a list of the events of the txoko
      * @throws ReadException if something is wrong it throws this exception
      */
-    public List<Event> findAll() throws ReadException;
-
     public List<Event> findAllEvents(Integer idTxoko) throws ReadException;
 
     /**
@@ -58,9 +62,8 @@ public interface EventEJBLocal {
      * @param idTxoko we send the id of the txoko
      * @return it return the data of that specific event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
-    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException, IdNotOkException;
+    public Event findEventByIdByTxoko(Integer idEvent, Integer idTxoko) throws ReadException;
 
     /**
      * Method to select a specific event
@@ -69,19 +72,17 @@ public interface EventEJBLocal {
      * @param idTxoko we send the id of the txoko
      * @return it return the data of that specific event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws NameNotOkException if the name doesn't exist it throws this
      * exception
      */
-    public Event findEventByName(String name, Integer idTxoko) throws ReadException, NameNotOkException;
+    public Event findEventByName(String name, Integer idTxoko) throws ReadException;
 
     /**
      * Methot to find an event by id
      * @param idEvent the id of the event
      * @return ir returns an event
      * @throws ReadException if something is wrong it throws this exception
-     * @throws IdNotOkException if the id doesn't exist it throws this exception
      */
-    public Event findEventById(Integer idEvent) throws ReadException, IdNotOkException;
+    public Event findEventById(Integer idEvent) throws ReadException;
     
     /**
      * Method to update an event

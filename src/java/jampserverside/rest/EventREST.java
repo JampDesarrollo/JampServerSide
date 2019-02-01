@@ -58,13 +58,12 @@ public class EventREST {
      * Method to delete an event
      * @param idEvent the event we want to delete 
      * @throws ReadException it throws if something is wrong
-     * @throws IdNotOkException it throws if the id is not ok
      */
     @DELETE
     @Path("idEvent/{idEvent}")
   //  @Consumes({MediaType.APPLICATION_XML})
 
-    public void deleteEvent(@PathParam("idEvent") Integer idEvent)throws IdNotOkException{
+    public void deleteEvent(@PathParam("idEvent") Integer idEvent){
          LOGGER.log(Level.INFO, "EventRESTful service: delete event");
         try {
             LOGGER.log(Level.INFO, "EventRESTful service: delete event");
@@ -153,10 +152,6 @@ public class EventREST {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception reading event with the id, {0}",
                     e.getMessage());
-        } catch (IdNotOkException e) {
-            LOGGER.log(Level.SEVERE,
-                    "ID DEL EVENTO ERRONEO",
-                    e.getMessage());
         }
         return event;
     }
@@ -178,10 +173,6 @@ public class EventREST {
         } catch (ReadException e) {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception reading event with the id, {0}",
-                    e.getMessage());
-        } catch (IdNotOkException e) {
-            LOGGER.log(Level.SEVERE,
-                    "ID DEL EVENTO ERRONEO",
                     e.getMessage());
         }
         return event;
@@ -206,10 +197,6 @@ public class EventREST {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception reading event with the name, {0}",
                     e.getMessage());
-        } catch (NameNotOkException e) {
-            LOGGER.log(Level.SEVERE,
-                    "NOMBRE DEL EVENTO ERRONEO",
-                    e.getMessage());
         }
         return event;
     }   
@@ -229,24 +216,6 @@ public class EventREST {
             LOGGER.log(Level.SEVERE,
                     "EventRESTful service: Exception updating event, {0}",
                     ex.getMessage());
-            throw new InternalServerErrorException(ex);
         }
     }
-    
-    //MOVILES 
-    //crear una entrada en la tabla event - user 
-    /*
-    @POST
-    @Consumes({MediaType.APPLICATION_XML})
-    public void createEventUser(Event event, User user) {
-        try {
-            LOGGER.log(Level.INFO, "EventRESTful service: creating an event for a user {0}.", event);
-            ejb.createEventUser(event, user);
-        } catch (CreateException ex) {
-            LOGGER.log(Level.SEVERE,
-                    "EventRESTful service: Exception creating event, {0}",
-                    ex.getMessage());
-        }
-    }
- */
 }
