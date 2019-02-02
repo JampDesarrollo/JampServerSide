@@ -23,8 +23,8 @@ public interface ProductEJBLocal {
      * 
      * @param name the nameof the txoko     
      * @param idTxoko the id of the txoko
-     * @return 
-     * @throws ReadException 
+     * @return the found product
+     * @throws ReadException throw exception is something is wrong
      */
     public Product find(String name, Integer idTxoko) throws ReadException;
     
@@ -33,7 +33,7 @@ public interface ProductEJBLocal {
      * @param name the name of the product
      * @param idTxoko th id of the txoko
      * @return List of product by name
-     * @throws ReadException 
+     * @throws ReadException throw exception is something is wrong
      */
     public List<Product> findProductByName(String name, Integer idTxoko) throws ReadException;
     
@@ -41,7 +41,7 @@ public interface ProductEJBLocal {
      * This method is for find all products by txoko
      * @param idTxoko the id of the txoko
      * @return List of Product bean with all product of the one txoko
-     * @throws ReadException 
+     * @throws ReadException throw exception is something is wrong
      */
     public List<Product> findAllProductsByTxoko(Integer idTxoko) throws ReadException;
     
@@ -49,7 +49,7 @@ public interface ProductEJBLocal {
      * This method retur all txokos
      * 
      * @return Lis of productBean with all products
-     * @throws ReadException 
+     * @throws ReadException throw exception is something is wrong
      */
     public List<Product> findAllProducts() throws ReadException;
     
@@ -58,7 +58,7 @@ public interface ProductEJBLocal {
      * 
      * @param idProduct the id of the product
      * @return One ProductBean
-     * @throws ReadException 
+     * @throws ReadException throw exception is something is wrong
      */
     public Product findProductsById(Integer idProduct) throws ReadException;
     
@@ -67,7 +67,7 @@ public interface ProductEJBLocal {
      * This method create a product
      * 
      * @param product the product to create
-     * @throws CreateException 
+     * @throws CreateException throw exception is create is wrong
      */
     public void createProduct(Product product) throws CreateException;
     
@@ -75,7 +75,7 @@ public interface ProductEJBLocal {
      * This method update a product
      * 
      * @param product the product we want to update
-     * @throws UpdateException 
+     * @throws UpdateException throw exception is update is wrong
      */
     public void updateProduct(Product product) throws UpdateException;
     
@@ -83,17 +83,17 @@ public interface ProductEJBLocal {
      * this method delete a product
      * 
      * @param product the product we want to delete
-     * @throws DeleteException 
+     * @throws DeleteException throw exception is delete is wrong
      */
     public void deleteProduct(Product product) throws DeleteException;
 
     /**
      * this method is for find by id by txoko
      * 
-     * @param idProduct
-     * @param idTxoko
-     * @return
-     * @throws ReadException 
+     * @param idProduct the id of the product we want to find
+     * @param idTxoko theid of the txoko
+     * @return the product we want to find
+     * @throws ReadException throw exception is something is wrong
      */
     public Product findProductByIdByTxoko(Integer idProduct, Integer idTxoko) throws ReadException;
 

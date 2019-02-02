@@ -56,8 +56,7 @@ public class EventREST {
     private EventEJBLocal ejb;
     /**
      * Method to delete an event
-     * @param idEvent the event we want to delete 
-     * @throws ReadException it throws if something is wrong
+     * @param idEvent the event we want to delete
      */
     @DELETE
     @Path("idEvent/{idEvent}")

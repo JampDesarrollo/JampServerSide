@@ -92,7 +92,7 @@ public class Product implements Serializable {
 
     /**
      * Setter of idProduct
-     * @param idProduct 
+     * @param idProduct th id of the product
      */
     public void setIdProduct(Integer idProduct) {
         this.idProduct = idProduct;
@@ -202,10 +202,7 @@ public class Product implements Serializable {
         this.txokos = txokos;
     }
     
-    /**
-     * 
-     * @return 
-     */
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -213,11 +210,6 @@ public class Product implements Serializable {
         return hash;
     }
 
-    /**
-     * 
-     * @param object
-     * @return 
-     */
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
@@ -231,10 +223,6 @@ public class Product implements Serializable {
         return true;
     }
 
-    /**
-     * 
-     * @return 
-     */
     @Override
     public String toString() {
         return "jampserverside.entity.Product[ id=" + getIdProduct() + " ]";

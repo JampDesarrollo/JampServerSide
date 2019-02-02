@@ -51,7 +51,7 @@ public class ProductREST{
      * This method is for update product
      * 
      * @param product the product we want to update
-     * @throws UpdateException 
+     * @throws UpdateException throw exception is update is wrong
      */
     @PUT
     @Consumes({MediaType.APPLICATION_XML})
@@ -70,7 +70,7 @@ public class ProductREST{
      * This method is for create product
      * 
      * @param product the product we wat to create
-     * @throws CreateException 
+     * @throws CreateException throw exception is create is wrong
      */
     @POST
     @Consumes({MediaType.APPLICATION_XML})
@@ -91,7 +91,7 @@ public class ProductREST{
      * The product we want to delete
      * 
      * @param idProduct the id of the product we want to delete
-     * @throws DeleteException 
+     * @throws DeleteException throw exception is delete is wrong
      */
     @DELETE
     @Path("idProducto/{idProduct}")
@@ -114,7 +114,7 @@ public class ProductREST{
      * @param idProduct the id of the product
      * @param idTxoko the id of the txoko
      * @return list of products by id and by txoko
-     * @throws ReadException 
+     * @throws ReadException throw exception is read is wrong 
      */
     @GET
     @Path("idProduct/{idProduct}/txoko/{idTxoko}")
@@ -136,8 +136,8 @@ public class ProductREST{
     /**
      * This method find products by id
      * 
-     * @param idProduct
-     * @return 
+     * @param idProduct the id of product we want to find
+     * @return the product we found
      */
     @GET
     @Path("idProducto/{idProduct}")
@@ -160,7 +160,7 @@ public class ProductREST{
      * @param name the name of the product
      * @param idTxoko the id of the txoko
      * @return List  of products with the name
-     * @throws ReadException 
+     * @throws ReadException throw exception is read is wrong
      */
     @GET
     @Path("name/{name}/txoko/{idTxoko}")
@@ -202,7 +202,7 @@ public class ProductREST{
     /**
      * This method find all products by txoko
      * 
-     * @param idTxoko
+     * @param idTxoko the id of the txoko 
      * @return list of products with all products by txoko
      */
     @GET
